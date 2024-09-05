@@ -3,6 +3,7 @@
 int main()
 {
   Rat* r1, * r2, * r3;
+  Rat::showNum();
   r1 = new Rat();
   r1->squeak();
   Rat::showNum();
