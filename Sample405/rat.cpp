@@ -1,7 +1,7 @@
 #include "rat.h"
 #include <iostream>
 using namespace std;
-//int Rat::s_count = 0;
+int Rat::s_count = 0;
 Rat::Rat() : m_id(0) {
   s_count++;
   m_id = s_count;

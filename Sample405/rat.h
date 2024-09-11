@@ -8,5 +8,6 @@ public:
   void squeak();
 private:
   int m_id;
-  inline static int s_count = 0;
+  static int s_count;
+  //inline static int s_count = 0;
 };
