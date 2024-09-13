@@ -10,5 +10,6 @@ Ambulance::~Ambulance() {
 }
 void Ambulance::savePeople() {
 	cout << "‹~‹}‹~–½Šˆ“®" << endl
+		<< m_migration << endl
 		<< "ŒÄ‚Ño‚µ‚Í" << m_number << "”Ô" << endl;
 }

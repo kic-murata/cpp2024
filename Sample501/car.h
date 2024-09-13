@@ -10,5 +10,6 @@ public:
 	void drive(double hour);
 private:
 	double m_speed;
+protected:
 	double m_migration;
 };
