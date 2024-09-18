@@ -3,7 +3,7 @@
 using namespace std;
 
 //Ã“Iƒƒ“ƒo•Ï”s_count‚Ì‰Šú‰»
-int Rat::s_count = 0;
+//int Rat::s_count = 0;
 
 Rat::Rat() : m_id(0) {
 	s_count++;
