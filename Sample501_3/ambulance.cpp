@@ -12,5 +12,7 @@ void Ambulance::sevePeople() {
 	cout << "救急救命活動" << endl
 		<< "呼び出しは" << m_number << "番" << endl;
 }
-
+void Ambulance::drive(double a) {
+	cout << "ピーポーピーポー" << endl;
+}
 
