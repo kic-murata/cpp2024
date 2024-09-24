@@ -8,9 +8,9 @@ int Calc::add() {
 	return m_a + m_b;
 }
 //template <typename T>
-T Calc::add(T a, T b) {
-	return a + b;
-}
+//T Calc::add(T a, T b) {
+//	return a + b;
+//}
 //int Calc::add(int a, int b) {
 //	return a + b;
 //}
