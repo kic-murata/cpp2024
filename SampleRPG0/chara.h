@@ -15,6 +15,7 @@ public:
 	HpClass* pHp;
 	Chara();
 	Chara(int hp, int atk, int def);
+	~Chara();
 	//void setHp(int hp);
 	//int getHp();
 	void setAtk(int atk);

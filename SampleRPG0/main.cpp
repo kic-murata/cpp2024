@@ -5,6 +5,8 @@ using namespace std;
 
 int main() {
 	Player* pPlayer = new Player(100, 50, 20, 30);
+	HpClass* pHp1 = new Player::pHp();
+	cout << "pPlayer‚ÌƒAƒhƒŒƒX:" << pPlayer->pHp << endl;
 	//pPlayer->pHp->setHp(200);
 	cout << "Player‚Ìó‘Ô HP:" << pPlayer->pHp->getHp();
 		;		/*	<< " SP:" << pPlayer->getSp()
