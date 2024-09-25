@@ -1,12 +1,10 @@
 #pragma once
 #include "car.h"
-
 class Ambulance : public Car {
 public:
-	Ambulance();  //コンストラクタ
-	virtual ~Ambulance(); //デストラクタ
+	Ambulance();  //コンストラクタ[クラス名+()]
+	~Ambulance(); //デストラクタ[~クラス名+()]
 	void sevePeople();
-	void drive(double hour);//オーバーライド
 private:
 	int m_number;
 };
