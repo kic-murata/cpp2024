@@ -2,7 +2,6 @@
 #include <vector>
 #include <string>
 using namespace std;
-
 int main()
 {
 	vector<int> intVec;
@@ -36,13 +35,24 @@ int main()
 	//for (auto i = intVec.begin(); i < intVec.end(); i++) {
 	//	cout << "intVec[" << i << "]=" << intVec[i] << endl;
 	//}
-
+	strVec.pop_back();
+	strVec.emplace_back("G");
+	//vector<int>::iterator itrInt = intVec.begin();
+	auto itrInt = intVec.begin();
+	cout << "*itr=" << *(itrInt+2) << endl;
+	intVec.insert(itrInt + 1, 111);
+	intVec.erase(itrInt + 2);
 	for (int i = 0; i < intVec.size(); i++) {
 		cout << "intVec[" << i << "]=" << intVec[i] << endl;
+	}
+	for (auto itrInt = intVec.begin(); itrInt != intVec.end(); ++itrInt) {
+		cout << *itrInt << endl;
+	}
+	for (auto itr : intVec) {
+		cout << *itrInt << endl;
 	}
 	for (int i = 0; i < strVec.size(); i++) {
 		cout << "strVec[" << i << "]=" << strVec[i] << endl;
 	}
 	return 0;
-
 }
