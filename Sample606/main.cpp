@@ -3,7 +3,7 @@
 using namespace std;
 
 int main() {
-	list<int> li{};
+	list<int> li{10,5,2};
 	li.push_back(1);
 	li.push_back(2);
 	li.emplace_front(3);
@@ -13,6 +13,8 @@ int main() {
 	li.insert(itr, 4);
 	cout << "size:" << li.size() << endl;
 	//for (itr = li.begin(); itr != li.end(); itr++) {
+	li.sort();
+	li.unique();
 	for(auto itr: li){
 		cout << itr << " ";
 	}
