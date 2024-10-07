@@ -4,11 +4,19 @@ int main() {
     int x = 0;
     int y = 10;
 
+    //addはキャプチャなし、引数あり
+    auto add = [](int a, int b) {return a + b; };
 //    auto nc = []() { cout << x << ", " << y << endl; }; //コンパイルエラー
+    //ncはキャプチャなし、引数なし
     auto nc = []() { cout << "NotCapture" << endl; };
+    //ccはxとyの値をコピーして取得
     auto cc = [=]() { cout << x << ", " << y << endl; };      // 全てをコピーキャプチャ
+    //crはyの値は参照（アドレス）で取得,それ以外はコピー
     auto cr = [=, &y]() { cout << x << ", " << y << endl; };    // デフォルトコピー、yを参照キャプチャ
+    //すべての変数を参照で取得
     auto rr = [&]() { cout << x << ", " << y << endl; };      // 全てを参照キャプチャ
+ 
+    cout << "add(2,5)=" << add(2, 5) << endl;
 
     cout << "nc()" << endl;
     nc();
@@ -28,5 +36,5 @@ int main() {
     //こちらのyは複製されたyを+1するが、元のyは変更されない
     rr();   //2,11
 
-    return 1;
+    return 0;
 }
