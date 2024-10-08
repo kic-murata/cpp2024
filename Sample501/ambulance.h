@@ -4,7 +4,8 @@
 class Ambulance : public Car {
 public:
 	Ambulance();  //コンストラクタ
-	virtual ~Ambulance(); //デストラクタ
+	~Ambulance(); //デストラクタ
+//	virtual ~Ambulance(); //デストラクタ
 	void savePeople();
 private:
 	int m_number;

@@ -69,5 +69,8 @@ int main()
 	for (int i = 0; i < strVec.size(); i++) {
 		cout << "strVec[" << i << "]=" << strVec[i] << endl;
 	}
+	for (auto&& c : "ABCDEF") {
+		cout << c << endl;
+	}
 	return 0;
 }

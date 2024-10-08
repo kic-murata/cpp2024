@@ -3,7 +3,8 @@
 class Car {
 public:
 	Car();  //コンストラクタ
-	virtual ~Car(); //デストラクタ
+	~Car(); //デストラクタ
+//	virtual ~Car(); //デストラクタ
 	void setSpeed(double speed);
 	double getSpeed();
 	double getMigration();
