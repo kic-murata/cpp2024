@@ -1,12 +1,43 @@
 #include <iostream>
 #include <string>
 #include <vector>
+//#include "cxx-prettyprint/prettyprint.hpp"
 using namespace std;
 
 int main()
 {
 	vector<int> v1{ 10,9,8 }; //整数型動的配列v1
 	vector<string> v2; //文字列動的配列v2
+//	vector<vector<int>> v3(3, vector<int>(3)) {};
+	vector<vector<int>> v3{ {1,2,3},{4,5,6},{7,8,9} };
+	vector<vector<int>> v4(2, vector<int>(2));
+
+	vector<vector<int>>::iterator itr3;
+	itr3 = v3.begin();
+
+	cout << itr3->at(0) << endl;//1
+	cout << *(itr3->begin()) << endl;//1
+	cout << *(itr3->begin() + 1) << endl;//2
+	cout << itr3->at(1) << endl;//2
+	cout << *(itr3->begin() + 2) << endl;//3
+	cout << *((itr3 + 1)->begin()) << endl;//4
+	cout << *((itr3 + 1)->begin() + 1) << endl;//5
+	cout << (itr3 + 1)->at(1) << endl;//5
+	cout << *((itr3 + 1)->begin() + 2) << endl;//6
+	cout << *((itr3 + 2)->begin()) << endl;//7
+	cout << *((itr3 + 2)->begin() + 1) << endl;//8
+	cout << *((itr3 + 2)->begin() + 2) << endl;//9
+
+	for (int i = 0; i < v3.size(); i++) {
+		for (int j = 0; j < v3[0].size(); j++) {
+			cout << v3[i][j] << " ";
+		}
+		cout << endl;
+	}
+
+	//prettyprint用
+	//cout << v3 << endl;
+	
 
 	v1.push_back(1);
 	v1.push_back(2);
