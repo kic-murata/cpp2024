@@ -1,14 +1,18 @@
 #include "chara.h"
 #include "player.h"
 #include <iostream>
+#include <vector>
 using namespace std;
 int main() {
-	Player* pPlayer = new Player(100, 50, 20, 30);
-	cout << "Player‚Ìó‘Ô" << endl 
-		<< " HP :" << pPlayer->getHp() <<endl
-		<< " SP :" << pPlayer->getSp() << endl
-		<< " Atk:" << pPlayer->getAtk() << endl
-		<< " Def:" << pPlayer->getDef() << endl;
-	delete pPlayer;
+	vector<Player*> pPlayer{ new Player(100, 50, 20, 30) };
+	pPlayer.push_back(new Player(300, 70, 40, 50));
+	for (int i = 0; i < pPlayer.size(); i++) {
+		cout << "Player‚Ìó‘Ô" << endl
+			<< " HP :" << pPlayer[i]->getHp() << endl
+			<< " SP :" << pPlayer[i]->getSp() << endl
+			<< " Atk:" << pPlayer[i]->getAtk() << endl
+			<< " Def:" << pPlayer[i]->getDef() << endl;
+	}
+	//delete pPlayer;
 	return 0;
 }
