@@ -11,6 +11,28 @@ int main()
 //	vector<vector<int>> v3(3, vector<int>(3)) {};
 	vector<vector<int>> v3{ {1,2,3},{4,5,6},{7,8,9} };
 	vector<vector<int>> v4(2, vector<int>(2));
+	vector<vector<int>> v5{};
+
+
+	cout << "v4" << endl;
+	v4.at(0).at(0) = 99;
+	v4[1].push_back(100);
+	cout << v4[1][2] << endl;
+	cout << "v3" << endl;
+	cout << v3[1][0] << endl;
+	cout << "v4の行数" << v4.size() << endl;
+	cout << "v4[0]の列数" << v4[0].size() << endl;
+	cout << "v4[1]の列数" << v4[1].size() << endl;
+	cout << "v5の行数" << v5.size() << endl;
+	v5.resize(1);
+	v5[0].push_back(1);
+	v5[0].push_back(2);
+	cout << "v5の行数" << v5.size() << endl;
+	v5.resize(2);
+	cout << "v5の行数" << v5.size() << endl;
+	cout << "v5[0]の列数" << v5[0].size() << endl;
+
+
 
 	vector<vector<int>>::iterator itr3;
 	itr3 = v3.begin();

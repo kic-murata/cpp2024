@@ -9,6 +9,9 @@ using namespace std;
 int main() {
 	vector<int> vec{ 20,11,9,33,40,25 };
 	int max, min;
+	max = *max_element(vec.begin(), vec.end());
+	min = *min_element(vec.begin(), vec.end());
+	cout << "最大値:" << max << " 最小値:" << min << endl;
 	//ラムダ式を用いたcompare関数
 	auto compare = [](int& max, int& min, int data) { 
 		max = max < data ? data : max; 
