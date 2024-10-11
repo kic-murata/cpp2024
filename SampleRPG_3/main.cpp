@@ -14,5 +14,11 @@ int main() {
 			<< " Def:" << pPlayer[i]->getDef() << endl;
 	}
 	//delete pPlayer;
+	auto itr = pPlayer.begin();
+	while (itr != pPlayer.end()) {
+		delete* itr;
+		itr = pPlayer.erase(itr);
+	}
+	cout << "pPlayer‚Ì—v‘f”:" << pPlayer.size() << endl;
 	return 0;
 }
