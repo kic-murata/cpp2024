@@ -52,7 +52,10 @@ int main()
 
 	for (int i = 0; i < v3.size(); i++) {
 		for (int j = 0; j < v3[0].size(); j++) {
-			cout << v3[i][j] << " ";
+			//cout << v3[i][j] << " ";
+			//cout << v3[i].at(j) << " ";
+			//cout << v3.at(i).at(j) << " ";
+			cout << v3.at(i)[j] << " ";
 		}
 		cout << endl;
 	}
