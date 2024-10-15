@@ -1,17 +1,24 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-void compare(int& max, int& min, int data) {
-	if (max < data) {
-		max = data;
-	}
-	if (min > data) {
-		min = data;
-	}
+void compare(int& max, int& min, const int& data) {
+	max = max < data ? data : max;
+	min = min > data ? data : min;
+	//if (max < data) {
+	//	max = data;
+	//}
+	//if (min > data) {
+	//	min = data;
+	//}
 }
 int main() {
 	vector<int> vec{ 20,11,9,33,40,25 };
 	int max, min;
+	cout << "max_element,min_element" << endl;
+	max = *max_element(vec.begin(), vec.end());
+	min = *min_element(vec.begin(), vec.end());
+	cout << "Å‘å’l:" << max << " "
+		<< "Å¬’l:" << min << endl;
 	//‡@“Y‚¦Žš‚Ì”Ô†‚Åƒ‹[ƒv
 	max = min = vec[0];
 	for (int i = 1; i < vec.size(); i++) {
