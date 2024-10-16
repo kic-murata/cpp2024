@@ -1,8 +1,9 @@
 #include <windows.h> //GetStdHandle関数などを使うので必要
 #include <iostream>
-//#include <cstdio>
-#include <stdio.h>
+#include <cstdio>
+//#include <stdio.h>
 #include <cstring>
+
 using namespace std;
 
 class Ban
@@ -26,6 +27,7 @@ Ban::Ban()
       ban[i][j] = 0;
     }
   }
+  system("cls");
   hOut = GetStdHandle(STD_OUTPUT_HANDLE);
   bSente = TRUE;
   nTe = 1;
@@ -59,7 +61,8 @@ int Ban::putStone()
     printf("  ");
     Locate(0, 5);
     printf("位置を指定してください(%s)", szSashite);
-    gets(szLocation);
+    //gets(szLocation);
+    scanf("%s", szLocation);
 
     if (szLocation[0] == 'A' || szLocation[0] == 'a')
       row = 0;
@@ -130,7 +133,7 @@ int Ban::bandraw()
     for (j = 0; j < 3; j++) {
       if (ban[i][j] == 1) {
         Locate(j * 4 + 4, i + 1);
-        printf("○");
+        printf("〇");
       }
       if (ban[i][j] == 2) {
         Locate(j * 4 + 4, i + 1);
