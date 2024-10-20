@@ -7,6 +7,10 @@ using namespace std;
 int main() {
 	//Player* pPlayer = new Player(100, 50, 20, 30);
 	vector<Player*> pPlayer{ new Player(100, 50, 20, 30) };
+	auto pP = make_unique<Player>(Player(100, 50, 20, 30));
+	cout << pP->getAtk() << endl;
+	vector<Player*> pPvec{};
+	pPvec->push_back(pP);
 	pPlayer.push_back(new Player(300, 70, 40, 50));
 	//cout << "Player‚Ìó‘Ô HP:" << pPlayer->getHp()
 	//	<< " SP:" << pPlayer->getSp()
