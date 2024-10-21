@@ -22,8 +22,11 @@ int main() {
 	//for (int i = 0; i < v1.size(); i++) {
 	//	cout << "v1[" << i << "]=" << v1[i] << endl;
 	//}
-	for (auto itr = v1.begin(); itr != v1.end(); itr++) {
-		cout << *itr << endl;
+	//for (auto itr = v1.begin(); itr != v1.end(); itr++) {
+	//	cout << *itr << endl;
+	//}
+	for (auto d : v1) {
+		cout << d << endl;
 	}
 
 	v2.pop_back();
