@@ -1,5 +1,6 @@
 #include<iostream>
 #include<string>
+#include<iomanip>
 #include<map>
 using namespace std;
 int main() {
@@ -21,6 +22,6 @@ int main() {
 	if (score.count("Mike")) {
 		cout << "Mike‚Ì“_”F" << score["Mike"] << endl;
 	}
-	return 0;
 
+	return 0;
 }
