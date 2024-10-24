@@ -22,6 +22,18 @@ int main() {
 	if (score.count("Mike")) {
 		cout << "Mike‚Ì“_”F" << score["Mike"] << endl;
 	}
+	//for (auto it = score.begin(); it != score.end(); it++) {
+	//	cout << "Key:"    << it->first 
+	//		   << " Value:" << it->second << endl;
+	//}
+	for (auto p : score) {
+		cout << "Key:"    << p.first
+			   << " Value:" << p.second << endl;
+	}
+
+	map<int, map<string, int>> tMap;
+	tMap[1]["ABC"] = 100;
+	cout << "tMap" << tMap[1]["ABC"] << endl;
 
 	return 0;
 }
