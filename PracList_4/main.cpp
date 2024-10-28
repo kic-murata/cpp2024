@@ -10,6 +10,7 @@ int main() {
 		//for (auto d : li2) {
 		//	li1.push_back(d);
 		//}
+		li1.sort();
 		cout << "連結結果li1：";
 		for (auto d : li1) {
 			cout << d << " ";
@@ -26,6 +27,7 @@ int main() {
 		//for (auto d : li1) {
 		//	li2.push_front(d);
 		//}
+		li2.sort();
 		cout << "連結結果li2：";
 		for (auto d : li2) {
 			cout << d << " ";
@@ -39,6 +41,36 @@ int main() {
 		for (auto d : li1) {
 			cout << d << " ";
 		}
+		cout << ":li2の要素数：" << li2.size();
+		cout << endl;
+	}
+	{	//insert
+		list<int> li1{ 2,3,11,17 }, li2{ 5,7,13,19 };
+		//insertの引数
+		//第1引数：挿入したい場所のイテレータ
+		//第2引数：挿入するデータの先頭イテレータ
+		//第3引数：　　　　〃　　の末尾イテレータ
+		li1.insert(li1.end(), li2.begin(), li2.end());
+		li1.sort();
+		cout << "連結結果insert：";
+		for (auto d : li1) {
+			cout << d << " ";
+		}
+		cout << ":li2の要素数：" << li2.size();
+		cout << endl;
+	}
+	{	//splice
+		list<int> li1{ 2,3,11,17 }, li2{ 5,7,13,19 };
+		//spliceの引数
+		//第1引数：挿入したい場所のイテレータ
+		//第2引数：挿入するリスト
+		li1.splice(li1.end(), li2);
+		li1.sort();
+		cout << "連結結果splice：";
+		for (auto d : li1) {
+			cout << d << " ";
+		}
+		cout << ":li2の要素数：" << li2.size();
 		cout << endl;
 	}
 }
