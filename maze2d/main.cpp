@@ -38,14 +38,19 @@ private:
     int x, y;
 };
 
+class Map {
+private:
+  Treasure TrPos;
+};
+
 // 文字列と区切り文字','から、CSVファイルの値を分離する関数
-vector<string> split(string& input, char delimiter)
+vector<int> split(string& input, char delimiter)
 {
     istringstream stream(input);
     string field;                   // 一行分まるまる読み込んだデータを格納する文字列
-    vector<string> result;          // カンマで区切った項目を格納する配列
+    vector<int> result;          // カンマで区切った項目を格納する配列
     while(getline(stream, field, delimiter)){
-        result.push_back(field);    // 一行分の配列要素（22個）を格納したvectorを作る
+        result.push_back(stoi(field));    // 一行分の配列要素（22個）を格納したvectorを作る
     }
     // 読み取って分解した要素数を表示
     // cout << result.size() << endl;
@@ -68,17 +73,18 @@ void MapdataRead(){
     // ファイルの終わりまで一行ずつ読み込んでいく
     while(getline(ifs, linetext)){
         // 読み込んだ一行をsplit関数で分割して、vector型のstrvecへ格納する
-        vector<string> strvec = split(linetext, ',');
+        vector<int> strvec = split(linetext, ',');
         cout << "strvec.size:" << strvec.size() << endl;
         cout << "mapdata.size:" << mapdata.size() << endl;
-        mapdata.resize(mapdata.size() + 1);
+        mapdata.resize(mapdata.size()+1);
 //        mapdata.emplace_back(strvec);
 //        mapdata.push_back(strvec);
         cout << "mapdata.size:" << mapdata.size() << endl;
         for(int i = 0; i < strvec.size(); i++){
             // cout << stoi(strvec.at(i));
             //mapdata[j][i] = stoi(strvec.at(i));
-            mapdata.push_back(stoi(strvec.at(i)));
+            //mapdata[j][i] = strvec.at(i);
+            mapdata[j].push_back(strvec.at(i));
         }
         j++;
     }
