@@ -17,7 +17,15 @@ void display(int max, int min) {
 //		min = v;
 //	}
 //}
-
+void comparep(int* max, int* min, const int* v) {
+	if (*max < *v) {
+		*max = *v;
+	}
+	if (*min > *v) {
+		*min = *v;
+	}
+	*v = 100;
+}
 int main() {
 	vector<int> vec{ 20, 11, 9, 33, 40, 25 };
 	int max, min;
