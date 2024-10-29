@@ -20,5 +20,18 @@ int main() {
 	if (score.count("Mike")) {
 		cout << "Mike‚Ì“_”:" << score["Mike"] << endl;
 	}
+	//for (auto it = score.begin(); it != score.end(); it++) {
+	//	cout << "Key: " << it->first
+	//		<< " Value: " << it->second << endl;
+	//}
+	//for (auto p : score) {
+	//	cout << "Key: " << p.first
+	//		<< " Value: " << p.second << endl;
+	//} 
+	for (auto& [key, value] : score) {
+		cout << "Key: " << key
+			<< " Value: " << value << endl;
+	}
+
 	return 0;
 }
