@@ -4,6 +4,14 @@
 #include<sstream>
 #include<vector>
 using namespace std;
+bool isNumber(string str) {
+	for (auto c : str) {
+		if (!isdigit(c)) {
+			return false;
+		}
+	}
+	return true;
+}
 int main() {
 	string filename = "enemy_list.csv";
 	ifstream ifs( filename );
@@ -32,11 +40,9 @@ int main() {
 		j++;
 	}
 	ifs.close();
-	string a0 = "aa0a";
-	for (auto c : a0) {
-		if (!isdigit(c)) {
-			cout << "•ÏŠ·•s‰Â" << endl;
-		}
+	string a0 = "2000";
+	if (isNumber(a0)) {
+		cout << stoi(a0);
 	}
 	return 0;
 }
