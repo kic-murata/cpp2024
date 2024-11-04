@@ -5,13 +5,27 @@
 #include<vector>
 using namespace std;
 
+//typedef struct {
+//	string m_name;
+//	int m_hp, m_atk, m_def;
+//} EnePara;
+//
+//class Chara {
+//protected:
+//	string m_name;
+//	int m_hp, m_atk, m_def;
+//};
+
 class Enemy {
 private:
+//	EnePara ep;
 	string m_name;
 	int m_hp, m_atk, m_def;
 public:
 	Enemy(string name, int hp, int atk, int def)
 		: m_name(name), m_hp(hp), m_atk(atk), m_def(def) {};
+	Enemy()
+		: m_name(""), m_hp(0), m_atk(0), m_def(0) {};
 	~Enemy() = default;
 	string getName() { return m_name; }
 	int getHp() { return m_hp; }
