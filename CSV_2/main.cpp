@@ -4,6 +4,20 @@
 #include <sstream>
 #include <vector>
 using namespace std;
+class Enemy {
+private:
+	string m_name;
+	int m_hp, m_atk, m_def;
+public:
+	Enemy() :m_name(""), m_hp(0), m_atk(0), m_def(0) {};
+	Enemy(string name, int hp, int atk, int def)
+		:m_name(name), m_hp(hp), m_atk(atk), m_def(def) {};
+	string getName() { return m_name; }
+	int getHp() { return m_hp; }
+	int getAtk() { return m_atk; }
+	int getDef() { return m_def; }
+};
+
 int main() {
 	string filename = "enemy_list.csv";
 	ifstream ifs(filename);//ファイルを開く
@@ -12,19 +26,18 @@ int main() {
 		return -1; //エラーコード-1を返す
 	}
 	cout << "ファイルをオープン！" << endl;
-	vector<vector<string>> vEne{};//Enemyデータ格納用配列
+	vector<string> vEne{};//1体のEnemyデータ格納用配列
+	vector<Enemy*> pEne{};//Enemyクラス格納用配列
 	string text;
-	int j = 0;//行番号管理用変数
 	while (getline(ifs, text)) {	//ファイルから複数行読み込み
 		istringstream iss(text);//読み込んだ文字列をストリーム変換
-		vEne.resize(j+1); //vEne[j]の領域を作る
 		while (getline(iss, text, ',')) {//文字列ストリームを','で分割
-			vEne[j].push_back(text);//各項目を配列の各要素に格納
+			vEne.push_back(text);//各項目を配列の各要素に格納
 		}
-		for (auto d : vEne[j]) {//範囲forでvEneの各要素をdに代入
-			cout << d << endl;
-		}
-		j++;
+		//stoi(文字列)は文字列をint値に変換する関数
+		pEne.push_back(new Enemy(vEne[0], stoi(vEne[1]),
+			stoi(vEne[2]), stoi(vEne[3])));
+		vEne.clear();
 	}
 	ifs.close(); //開いたファイルは閉じる
 	return 0;
