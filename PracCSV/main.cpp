@@ -15,7 +15,7 @@ private:
 public:
 	Weapon() : m_name(""), m_atk(0), m_price(0), m_weight(0) {};
 	Weapon(string name, int atk, int price, int weight)
-		: m_name{ name }, m_atk(atk), m_price(price), m_weight(weight) {};
+		: m_name(name), m_atk(atk), m_price(price), m_weight(weight) {};
 	~Weapon() = default;
 	string getName() { return m_name; }
 	int getAtk() { return m_atk; }
