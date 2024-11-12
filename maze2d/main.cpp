@@ -114,7 +114,7 @@ public:
     //指定範囲（2～19の範囲）で乱数を生成する
     auto trX = rnd_x(rand_engine);
     auto trY = rnd_y(rand_engine);
-    if (mapdata[trY][trX] == ROAD) {
+    if (mapdata[trY][trX] == ROAD) {//宝箱の位置が道の上にあればOK
       mapdata[trY][trY] = TREASURE;
     }
     else
@@ -185,3 +185,13 @@ int main()
 
     return 0;
 }
+//コマンドプロンプトで文字に色を付ける方法
+//\033[30m	黒
+//\033[31m	赤
+//\033[32m	緑
+//\033[33m	黄
+//\033[34m	青
+//\033[35m	マゼンダ
+//\033[36m	シアン
+//\033[37m	シロ
+//\033[m    リセット（リセットしないと色が残る）
