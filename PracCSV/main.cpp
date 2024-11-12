@@ -15,7 +15,7 @@ private:
 public:
 	Weapon() : m_name(""), m_atk(0), m_price(0), m_weight(0) {};
 	Weapon(string name, int atk, int price, int weight)
-		: m_name{ name }, m_atk(atk), m_price(price), m_weight(weight) {};
+		: m_name(name), m_atk(atk), m_price(price), m_weight(weight) {};
 	~Weapon() = default;
 	string getName() { return m_name; }
 	int getAtk() { return m_atk; }
@@ -37,12 +37,12 @@ int main() {
 		istringstream iss(text);//文字列ストリームに変換
 		while(getline(iss, text, ',')) {//文字列ストリームを,で分割
 			vec.push_back(text);
-		//	cout << text << " ";
 		}
-		//cout << endl;
 		vWpn.push_back(new Weapon(vec[0], stoi(vec[1]), stoi(vec[2]), stoi(vec[3])));
 		vec.clear();
 	}
+	ifs.close();
+  //武器一覧の表示
 	for (int i = 0; i < vWpn.size(); i++) {
 		cout << i << ":" << vWpn[i]->getName() << "\t";
 		if (vWpn[i]->getPrice() < 0) {
@@ -52,6 +52,7 @@ int main() {
 			cout << right << setw(8) << vWpn[i]->getPrice() << "G" << endl;
 		}
 	}
+  //購入メッセージの表示
 	cout << "どの武器を購入しますか？＞";
 	cin >> text;	//キーボードから入力
 	int sel = stoi(text);//文字を数値に変換
@@ -68,6 +69,5 @@ int main() {
 	else {//選択肢の範囲外を入力した場合
 		cout << "番号がありません" << endl;
 	}
-	ifs.close();
 	return 0;
 }
