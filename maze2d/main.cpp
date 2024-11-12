@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <conio.h>
 //#include <cstdlib>
 //#include <ctime>
@@ -11,26 +11,31 @@
 
 using namespace std;
 
-//22s~22—ñ‚Ì“ñŸŒ³”z—ñ—p—Ìˆæ‚ğŠm•Û
+//22è¡ŒÃ—22åˆ—ã®äºŒæ¬¡å…ƒé…åˆ—ç”¨é ˜åŸŸã‚’ç¢ºä¿
 vector<vector<int>> mapdata{};
 //vector<vector<int>> mapdata(22, vector<int>(22));
-//ƒ}ƒbƒvƒf[ƒ^ƒtƒ@ƒCƒ‹–¼
+//ãƒãƒƒãƒ—ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«å
 static string m_fileneme { "2d_maze22.csv" };
 
-constexpr int WIDTH = 22;     //ƒ}ƒbƒv‚Ì‰¡•
-constexpr int HEIGHT = 22;    //ƒ}ƒbƒv‚Ìc•
-constexpr char PLAYER = '@';    //ƒvƒŒƒCƒ„[ƒLƒƒƒ‰‚Ì•¶š
-constexpr char TREASURE = '$';  //•ó” ‚Ì•¶š
-constexpr char WALL = '#';      //•Ç‚Ì•¶š
+constexpr int WIDTH = 22;     //ãƒãƒƒãƒ—ã®æ¨ªå¹…
+constexpr int HEIGHT = 22;    //ãƒãƒƒãƒ—ã®ç¸¦å¹…
+constexpr char PLAYER = '@';    //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚­ãƒ£ãƒ©ã®æ–‡å­—
+constexpr char TREASURE = '$';  //å®ç®±ã®æ–‡å­—
+constexpr char WALL = 'ï¾›';      //å£ã®æ–‡å­—
 
-char map[HEIGHT][WIDTH];    //WIDTH~HEIGHT‚Ìƒ}ƒbƒvì¬(•¶šŒ^”z—ñ)
+char map[HEIGHT][WIDTH];    //WIDTHÃ—HEIGHTã®ãƒãƒƒãƒ—ä½œæˆ(æ–‡å­—å‹é…åˆ—)
 
-int playerX, playerY;       //ƒvƒŒƒCƒ„[‚ÌXAYÀ•W
-int treasureX, treasureY;   //•ó” ‚ÌX,YÀ•W
+int playerX, playerY;       //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®Xã€Yåº§æ¨™
+int treasureX, treasureY;   //å®ç®±ã®X,Yåº§æ¨™
 
 class Player {
 private:
-    int x, y;
+  int x_, y_;
+public:
+  Player() : x_(0), y_(0) {};
+  Player(int x, int y) : x_(x), y_(y) {};
+  void setX(int x) { x_ = x; }
+  void setY(int y) { y_ = y; }
 };
 
 class Treasure {
@@ -43,43 +48,43 @@ private:
   Treasure TrPos;
 };
 
-// •¶š—ñ‚Æ‹æØ‚è•¶š','‚©‚çACSVƒtƒ@ƒCƒ‹‚Ì’l‚ğ•ª—£‚·‚éŠÖ”
+// æ–‡å­—åˆ—ã¨åŒºåˆ‡ã‚Šæ–‡å­—','ã‹ã‚‰ã€CSVãƒ•ã‚¡ã‚¤ãƒ«ã®å€¤ã‚’åˆ†é›¢ã™ã‚‹é–¢æ•°
 vector<int> split(string& input, char delimiter)
 {
     istringstream stream(input);
-    string field;                   // ˆês•ª‚Ü‚é‚Ü‚é“Ç‚İ‚ñ‚¾ƒf[ƒ^‚ğŠi”[‚·‚é•¶š—ñ
-    vector<int> result;          // ƒJƒ“ƒ}‚Å‹æØ‚Á‚½€–Ú‚ğŠi”[‚·‚é”z—ñ
+    string field;                   // ä¸€è¡Œåˆ†ã¾ã‚‹ã¾ã‚‹èª­ã¿è¾¼ã‚“ã ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹æ–‡å­—åˆ—
+    vector<int> result;          // ã‚«ãƒ³ãƒã§åŒºåˆ‡ã£ãŸé …ç›®ã‚’æ ¼ç´ã™ã‚‹é…åˆ—
     while(getline(stream, field, delimiter)){
-        result.push_back(stoi(field));    // ˆês•ª‚Ì”z—ñ—v‘fi22ŒÂj‚ğŠi”[‚µ‚½vector‚ğì‚é
+        result.push_back(stoi(field));    // ä¸€è¡Œåˆ†ã®é…åˆ—è¦ç´ ï¼ˆ22å€‹ï¼‰ã‚’æ ¼ç´ã—ãŸvectorã‚’ä½œã‚‹
     }
-    // “Ç‚İæ‚Á‚Ä•ª‰ğ‚µ‚½—v‘f”‚ğ•\¦
+    // èª­ã¿å–ã£ã¦åˆ†è§£ã—ãŸè¦ç´ æ•°ã‚’è¡¨ç¤º
     // cout << result.size() << endl;
     return result;
 }
 
 void MapdataRead(){
 
-   // ƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€‚ğì¬‚µ‚ÄA2d_maze.csv‚ğŠJ‚­
+   // ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’ä½œæˆã—ã¦ã€2d_maze.csvã‚’é–‹ã
     ifstream ifs(m_fileneme);
-    // ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ƒGƒ‰[ƒ`ƒFƒbƒN
+    // ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ã‚¨ãƒ©ãƒ¼ãƒã‚§ãƒƒã‚¯
     if(ifs.fail()){
         cout << "file open error" << endl;
     } else {
         cout << "file open success" << endl;
     }
-    // ƒtƒ@ƒCƒ‹‚©‚çˆês‚¸‚Â“Ç‚İ‚Ş‚½‚ß‚ÌstringŒ^•Ï”line‚ğéŒ¾
+    // ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ä¸€è¡Œãšã¤èª­ã¿è¾¼ã‚€ãŸã‚ã®stringå‹å¤‰æ•°lineã‚’å®£è¨€
     string linetext;
     int j = 0;
-    // ƒtƒ@ƒCƒ‹‚ÌI‚í‚è‚Ü‚Åˆês‚¸‚Â“Ç‚İ‚ñ‚Å‚¢‚­
+    // ãƒ•ã‚¡ã‚¤ãƒ«ã®çµ‚ã‚ã‚Šã¾ã§ä¸€è¡Œãšã¤èª­ã¿è¾¼ã‚“ã§ã„ã
     while(getline(ifs, linetext)){
-        // “Ç‚İ‚ñ‚¾ˆês‚ğsplitŠÖ”‚Å•ªŠ„‚µ‚ÄAvectorŒ^‚Ìstrvec‚ÖŠi”[‚·‚é
+        // èª­ã¿è¾¼ã‚“ã ä¸€è¡Œã‚’splité–¢æ•°ã§åˆ†å‰²ã—ã¦ã€vectorå‹ã®strvecã¸æ ¼ç´ã™ã‚‹
         vector<int> strvec = split(linetext, ',');
-        cout << "strvec.size:" << strvec.size() << endl;
-        cout << "mapdata.size:" << mapdata.size() << endl;
+ //       cout << "strvec.size:" << strvec.size() << endl;
+ //       cout << "mapdata.size:" << mapdata.size() << endl;
         mapdata.resize(mapdata.size()+1);
 //        mapdata.emplace_back(strvec);
 //        mapdata.push_back(strvec);
-        cout << "mapdata.size:" << mapdata.size() << endl;
+//        cout << "mapdata.size:" << mapdata.size() << endl;
         for(int i = 0; i < strvec.size(); i++){
             // cout << stoi(strvec.at(i));
             //mapdata[j][i] = stoi(strvec.at(i));
@@ -90,7 +95,7 @@ void MapdataRead(){
     }
 }
 
-void InitializeMap()        //ƒ}ƒbƒv“à‚ğu.v‚Å–„‚ß‚é
+void InitializeMap()        //ãƒãƒƒãƒ—å†…ã‚’ã€Œ.ã€ã§åŸ‹ã‚ã‚‹
 {
     for (int y = 0; y < HEIGHT; y++)
     {
@@ -108,84 +113,89 @@ void InitializeMap()        //ƒ}ƒbƒv“à‚ğu.v‚Å–„‚ß‚é
     }
 }
 
-void GenerateTreasure()     //—”‚Å•ó” ‚ÌˆÊ’u‚ğŒˆ’è
+void GenerateTreasure()     //ä¹±æ•°ã§å®ç®±ã®ä½ç½®ã‚’æ±ºå®š
 {
-  // —”¶¬Ší‚ÌƒIƒuƒWƒFƒNƒgrnd_dev‚ğì¬
+  // ä¹±æ•°ç”Ÿæˆå™¨ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆrnd_devã‚’ä½œæˆ
   random_device rnd_dev{};
-  // ‹^——”iƒƒ‹ƒZƒ“ƒkƒcƒCƒXƒ^[j‚Ì‚½‚ß‚É‰ŠúƒV[ƒhi—”j‚ğ—^‚¦‚é
+  // ç–‘ä¼¼ä¹±æ•°ï¼ˆãƒ¡ãƒ«ã‚»ãƒ³ãƒŒãƒ„ã‚¤ã‚¹ã‚¿ãƒ¼ï¼‰ã®ãŸã‚ã«åˆæœŸã‚·ãƒ¼ãƒ‰ï¼ˆä¹±æ•°ï¼‰ã‚’ä¸ãˆã‚‹
   mt19937 rand_engine(rnd_dev());
-  // XÀ•W—p‚Ì”ÍˆÍ‚ğw’è‚µ‚½•ª•z¶¬ŠíƒIƒuƒWƒFƒNƒgrnd_x‚ğ¶¬
+  // Xåº§æ¨™ç”¨ã®ç¯„å›²ã‚’æŒ‡å®šã—ãŸåˆ†å¸ƒç”Ÿæˆå™¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆrnd_xã‚’ç”Ÿæˆ
   uniform_int_distribution<int> rnd_x(2, WIDTH-3);
-  // YÀ•W—p‚Ì”ÍˆÍ‚ğw’è‚µ‚½•ª•z¶¬ŠíƒIƒuƒWƒFƒNƒgrnd_y‚ğ¶¬
+  // Yåº§æ¨™ç”¨ã®ç¯„å›²ã‚’æŒ‡å®šã—ãŸåˆ†å¸ƒç”Ÿæˆå™¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆrnd_yã‚’ç”Ÿæˆ
   uniform_int_distribution<int> rnd_y(2, HEIGHT-3);
-  //w’è”ÍˆÍi2`47‚Ì”ÍˆÍj‚Å—”‚ğ¶¬‚·‚é
+  //æŒ‡å®šç¯„å›²ï¼ˆ2ï½47ã®ç¯„å›²ï¼‰ã§ä¹±æ•°ã‚’ç”Ÿæˆã™ã‚‹
   treasureX = rnd_x(rand_engine);
   treasureY = rnd_y(rand_engine);
     //treasureX = rand() % (WIDTH-4);
     //treasureY = rand() % (HEIGHT-4);
-    // map[treasureY+2][treasureX+2] = TREASURE;   //Œˆ’è‚µ‚½À•W‚Ìƒ}ƒbƒvƒf[ƒ^‚É•ó” ‚Ì•¶š‚ğ‘ã“ü
-    map[treasureY][treasureX] = TREASURE;   //Œˆ’è‚µ‚½À•W‚Ìƒ}ƒbƒvƒf[ƒ^‚É•ó” ‚Ì•¶š‚ğ‘ã“ü
+    // map[treasureY+2][treasureX+2] = TREASURE;   //æ±ºå®šã—ãŸåº§æ¨™ã®ãƒãƒƒãƒ—ãƒ‡ãƒ¼ã‚¿ã«å®ç®±ã®æ–‡å­—ã‚’ä»£å…¥
+    map[treasureY][treasureX] = TREASURE;   //æ±ºå®šã—ãŸåº§æ¨™ã®ãƒãƒƒãƒ—ãƒ‡ãƒ¼ã‚¿ã«å®ç®±ã®æ–‡å­—ã‚’ä»£å…¥
 }
 
-void DrawMap()              //ƒ}ƒbƒvƒf[ƒ^‚Ì•\¦
+void DrawMap()              //ãƒãƒƒãƒ—ãƒ‡ãƒ¼ã‚¿ã®è¡¨ç¤º
 { 
-    //ƒ}ƒbƒv‚ÍƒvƒŒƒCƒ„[‚ÌˆÊ’u‚ğ’†S‚Æ‚µ‚ÄA5~5ƒ}ƒX‚Ô‚ñ‚¾‚¯‰æ–Ê‚É•\¦
+    //ãƒãƒƒãƒ—ã¯ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã‚’ä¸­å¿ƒã¨ã—ã¦ã€5Ã—5ãƒã‚¹ã¶ã‚“ã ã‘ç”»é¢ã«è¡¨ç¤º
     // #####
     // # ###
     // # @
     // # ###
     // # ###
-    //‚»‚Ì‚½‚ßAƒvƒŒƒCƒ„[‚ÌˆÊ’u‚©‚çXÀ•WAYÀ•W‚Æ‚à‚É‚Qƒ}ƒX‚Ô‚ñ¬‚³‚¢
-    //‚Æ‚±‚ë‚©‚çA‚Qƒ}ƒX‚Ô‚ñ‘å‚«‚¢À•W‚Ü‚Å‚ÌŠÔ‚Ìƒf[ƒ^‚ğ‰æ–Ê‚É•\¦‚·‚é
+    //ãã®ãŸã‚ã€ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã‹ã‚‰Xåº§æ¨™ã€Yåº§æ¨™ã¨ã‚‚ã«ï¼’ãƒã‚¹ã¶ã‚“å°ã•ã„
+    //ã¨ã“ã‚ã‹ã‚‰ã€ï¼’ãƒã‚¹ã¶ã‚“å¤§ãã„åº§æ¨™ã¾ã§ã®é–“ã®ãƒ‡ãƒ¼ã‚¿ã‚’ç”»é¢ã«è¡¨ç¤ºã™ã‚‹
     for (int y = playerY-2; y <= playerY+2; y++)
     {
         for (int x = playerX-2; x <= playerX+2; x++)
         {
-            if (x == playerX && y == playerY)   //ƒvƒŒƒCƒ„[‚Ì‚¢‚éÀ•W‚É
+            if (x == playerX && y == playerY)   //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã„ã‚‹åº§æ¨™ã«
             {
-                cout << PLAYER;                 //ƒvƒŒƒCƒ„[‚Ì•¶š‚ğ•\¦
+                //cout << PLAYER;                 //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ–‡å­—ã‚’è¡¨ç¤º
+              cout << "@";                 //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ–‡å­—ã‚’è¡¨ç¤º
             }
             else
             {
-                cout << map[y][x];              //ƒvƒŒƒCƒ„[ˆÈŠO‚ÌêŠ‚ğ•\¦
+                //cout << map[y][x];              //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ä»¥å¤–ã®å ´æ‰€ã‚’è¡¨ç¤º
+              if (map[y][x] == 'ï¾›') cout << "\033[31m#\033[m";
+              if (map[y][x] == '.') cout << "\033[30m.\033[m";
+              if (map[y][x] == '$') cout << "\033[33m$\033[m";
+
             }
         }
-        cout << endl;                           //ˆês‚Ô‚ñ•\¦‚µ‚½Œã‰üs
+        cout << endl;                           //ä¸€è¡Œã¶ã‚“è¡¨ç¤ºã—ãŸå¾Œæ”¹è¡Œ
     }
 }
 
-void MovePlayer(char direction)                 //“ü—Í‚³‚ê‚½•¶š‚É‚æ‚éƒvƒŒƒCƒ„[‚ÌˆÚ“®ˆ—
+void MovePlayer(char direction)                 //å…¥åŠ›ã•ã‚ŒãŸæ–‡å­—ã«ã‚ˆã‚‹ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•å‡¦ç†
 {
     int newPlayerX = playerX;
     int newPlayerY = playerY;
 
     switch (direction)
     {
-        case 'w': // ã
+        case 'w': // ä¸Š
             newPlayerY--;
             break;
-        case 'a': // ¶
+        case 'a': // å·¦
             newPlayerX--;
             break;
-        case 's': // ‰º
+        case 's': // ä¸‹
             newPlayerY++;
             break;
-        case 'd': // ‰E
+        case 'd': // å³
             newPlayerX++;
             break;
         case '@':
             exit(0);
     }
 
-    if (newPlayerX >= 0 && newPlayerX < WIDTH && newPlayerY >= 0 && newPlayerY < HEIGHT) //ˆÚ“®”ÍˆÍƒ`ƒFƒbƒN
+    if (newPlayerX >= 0 && newPlayerX < WIDTH && newPlayerY >= 0 && newPlayerY < HEIGHT) //ç§»å‹•ç¯„å›²ãƒã‚§ãƒƒã‚¯
     {
         if(map[newPlayerY][newPlayerX]!=WALL){
-            playerX = newPlayerX;   //ˆÚ“®‰Â”\‚È‚çƒvƒŒƒCƒ„[ˆÊ’u‚ğXV
+            playerX = newPlayerX;   //ç§»å‹•å¯èƒ½ãªã‚‰ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ä½ç½®ã‚’æ›´æ–°
             playerY = newPlayerY;
 
-            if (map[playerY][playerX] == TREASURE)   //ƒvƒŒƒCƒ„[‚ÌˆÊ’u‚ª•ó” ‚Ì‚Æ‚«
+            if (map[playerY][playerX] == TREASURE)   //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ãŒå®ç®±ã®ã¨ã
             {
-                cout << "\033[31m‚¨•ó‚ğŒ©‚Â‚¯‚Ü‚µ‚½IƒQ[ƒ€ƒNƒŠƒA‚Å‚·B\033[m" << endl;
+                cout << "\033[31mãŠå®ã‚’è¦‹ã¤ã‘ã¾ã—ãŸï¼ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢ã§ã™ã€‚\033[m" << endl;
                 exit(0);
             }
 
@@ -195,19 +205,21 @@ void MovePlayer(char direction)                 //“ü—Í‚³‚ê‚½•¶š‚É‚æ‚éƒvƒŒƒCƒ„[
 
 int main()
 {
-    //srand(time(NULL));  //—”‰Šú‰»
+    //srand(time(NULL));  //ä¹±æ•°åˆæœŸåŒ–
 
-    MapdataRead();      //CSV‚©‚ç‚Ìƒf[ƒ^“Ç‚İ‚İ
-    InitializeMap();    //ƒ}ƒbƒv‰Šú‰»
-    GenerateTreasure(); //•ó” ¶¬
+    MapdataRead();      //CSVã‹ã‚‰ã®ãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
+    InitializeMap();    //ãƒãƒƒãƒ—åˆæœŸåŒ–
+    GenerateTreasure(); //å®ç®±ç”Ÿæˆ
+    Player pl;
 
-    playerX = 2;    //ƒvƒŒƒCƒ„[‚ÌoŒ»ˆÊ’u‚Ìİ’è
+
+    playerX = 2;    //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å‡ºç¾ä½ç½®ã®è¨­å®š
     playerY = 2;    //(X,Y) = (2,2)
 
-    //system("cls");  //ƒRƒ}ƒ“ƒhƒvƒƒ“ƒvƒg‚Ì‰æ–ÊÁ‹
+    system("cls");  //ã‚³ãƒãƒ³ãƒ‰ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆã®ç”»é¢æ¶ˆå»
     while (true)
     {
-        // •W€o—Í‰æ–Ê‚ÌƒJ[ƒ\ƒ‹ˆÊ’u‚ğ(0,0)‚Öİ’è‚·‚é
+        // æ¨™æº–å‡ºåŠ›ç”»é¢ã®ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã‚’(0,0)ã¸è¨­å®šã™ã‚‹
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD { 0, 0 });
         DrawMap();
 
