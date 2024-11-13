@@ -1,84 +1,12 @@
-﻿#include <iostream>
-#include <conio.h>
-//#include <cstdlib>
-//#include <ctime>
-#include <Windows.h>
+﻿#pragma once
+#include "maze2d.h"
+#include <iostream>
 #include <vector>
 #include <fstream>
 #include <sstream>
 #include <random>
 #include <algorithm>
-
 using namespace std;
-
-//22行×22列の二次元配列用領域を確保
-vector<vector<int>> mapdata{};
-//マップデータファイル名
-static string m_filename { "2d_maze22.csv" };
-
-enum MapObj {
-  ROAD,
-  WALL,
-  TREASURE = 4
-};
-
-class Vector2 {
-public:
-  int x;
-  int y;
-  Vector2() = default;
-  Vector2(int x, int y) : x(x), y(y) {};
-};
-
-class Player {
-private:
-  Vector2 Pos;
-public:
-  Player() : Pos(0,0) {};
-  Player(int x, int y) : Pos(x, y) {};
-  void setX(int x) { Pos.x = x; }
-  void setY(int y) { Pos.y = y; }
-  void move(int x, int y) {};
-  int getX() { return Pos.x; }
-  int getY() { return Pos.y; }
-  void move(char key) {
-    int newPosX = Pos.x;
-    int newPosY = Pos.y;
-
-    switch (key)
-    {
-    case 'w': // 上
-      newPosY--;
-      break;
-    case 'a': // 左
-      newPosX--;
-      break;
-    case 's': // 下
-      newPosY++;
-      break;
-    case 'd': // 右
-      newPosX++;
-      break;
-    case '@':
-      exit(0);
-    }
-
-    if (newPosX >= 0 && newPosX < mapdata[0].size() && newPosY >= 0 && newPosY < mapdata.size()) //移動範囲チェック
-    {
-      if (mapdata[newPosY][newPosX] != WALL) {
-        Pos.x = newPosX;   //移動可能ならプレイヤー位置を更新
-        Pos.y = newPosY;
-
-        if (mapdata[Pos.y][Pos.x] == TREASURE)   //プレイヤーの位置が宝箱のとき
-        {
-          cout << "\033[33mお宝発見！！ゲームクリア\033[m" << endl;
-          exit(0);
-        }
-      }
-    }
-  }
-};
-
 class Map {
 public:
   Map() = default;
@@ -159,39 +87,3 @@ public:
   }
 };
 
-int main()
-{
-  Map map;
-  //CSVからのデータ読み込み&マップデータの格納
-  map.Load(m_filename);
-  //宝箱の生成
-  map.setTreasure();
-
-  //プレイヤーの出現位置の設定(X,Y) = (2,2)
-  Player player(2,2);
-
-    system("cls");  //コマンドプロンプトの画面消去
-    while (true)    //ゲームループ
-    {
-        // 標準出力画面のカーソル位置を(0,0)へ設定する
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD { 0, 0 });
-
-        map.DrawMap(player.getX(), player.getY());
-
-        char input = _getch();
-
-        player.move(input);
-    }
-
-    return 0;
-}
-//コマンドプロンプトで文字に色を付ける方法
-//\033[30m	黒
-//\033[31m	赤
-//\033[32m	緑
-//\033[33m	黄
-//\033[34m	青
-//\033[35m	マゼンダ
-//\033[36m	シアン
-//\033[37m	シロ
-//\033[m    リセット（リセットしないと色が残る）
