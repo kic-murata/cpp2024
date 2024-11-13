@@ -2,10 +2,10 @@
 #include <conio.h>
 #include <Windows.h>
 #include <vector>
-#include <fstream>
-#include <sstream>
-#include <random>
-#include <algorithm>
+//#include <fstream>
+//#include <sstream>
+//#include <random>
+//#include <algorithm>
 //#include "maze2d.h"
 #include "map.h"
 #include "player.h"

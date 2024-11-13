@@ -1,11 +1,15 @@
 ﻿#pragma once
+#include "shared.h"
 #include <vector>
+#include <iostream>
 using namespace std;
 
-//22行×22列の二次元配列用領域を確保
-vector<vector<int>> mapdata{};
-//マップデータファイル名
-static string m_filename{ "2d_maze22.csv" };
+////22行×22列の二次元配列用領域を確保
+//extern vector<vector<int>> mapdata{};
+////マップデータファイル名
+//string m_filename{ "2d_maze22.csv" };
+
+vector<vector<int>> SharedObj::mapdata;
 
 enum MapObj {
   ROAD,

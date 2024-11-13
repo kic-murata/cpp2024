@@ -1,20 +1,16 @@
-﻿#include "map.h"
+﻿#pragma once
 #include "maze2d.h"
 #include <iostream>
-#include <conio.h>
-//#include <cstdlib>
-//#include <ctime>
-#include <Windows.h>
 #include <vector>
 #include <fstream>
 #include <sstream>
 #include <random>
 #include <algorithm>
-
 using namespace std;
-
-Map::Map() = default;
-void Map::Load(string filename) {
+class Map {
+public:
+  Map() = default;
+  void Load(string filename) {
     ifstream ifs(filename);
     if (!ifs) {
       cout << "FileOpen Error" << endl;
@@ -34,7 +30,7 @@ void Map::Load(string filename) {
       j++;
     }
   }
-void Map::setTreasure() {
+  void setTreasure() {
     // 乱数生成器のオブジェクトrnd_devを作成
     random_device rnd_dev{};
     // 疑似乱数（メルセンヌツイスター）のために初期シード（乱数）を与える
@@ -54,7 +50,7 @@ void Map::setTreasure() {
       setTreasure();
     }
   }
-void Map::DrawMap(int playerX, int playerY) {
+  void DrawMap(int playerX, int playerY) {
   //マップはプレイヤーの位置を中心として、5×5マスぶんだけ画面に表示
   // #####
   // # ###
@@ -89,3 +85,5 @@ void Map::DrawMap(int playerX, int playerY) {
       cout << endl; //一行ぶん表示した後改行
     }
   }
+};
+
