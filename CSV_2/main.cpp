@@ -40,5 +40,25 @@ int main() {
 		vEne.clear();
 	}
 	ifs.close(); //開いたファイルは閉じる
+	//pEneには３種類のEnemyのインスタンスのアドレスが格納されている
+	for (const auto& p : pEne) {
+		//ゲッターを使ってメンバ変数を取得する
+		cout << p->getName() << "\t" << p->getHp() << "\t"
+			 << p->getAtk() << "\t" << p->getDef() << endl;
+	}
+	ofstream ofs("enemy_list2.csv", ios::out);
+	if (ofs.fail()) {
+		cout << "ファイルオープンエラー" << endl;
+		return -1;
+	}
+	for (const auto& p : pEne) {
+		ofs << p->getDef() << "," << p->getAtk() << ","
+			<< p->getHp() << "," << p->getName() << endl;
+	}
+	ofs.close();
+	ofs.open("enemy_list.csv", ios::app);
+	ofs << "Rat,15,15,3" << endl;
+	ofs.close();
+
 	return 0;
 }
