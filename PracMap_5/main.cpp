@@ -18,6 +18,21 @@ int main() {
 	//for (auto v : vEne) {
 	//	mapEne.emplace(v.name, v);
 	//}
+	string input;
+	cout << "Enemy名を入力>";
+	cin >> input;
+	if (mapEne.count(input)) {
+		//イテレータを使った表示
+		//auto it = mapEne.find(input);
+		//cout << "Name: " << it->second.name << endl
+		//	<< "Hp: " << it->second.hp << endl
+		//	<< "Atk: " << it->second.atk << endl
+		//	<< "Def: " << it->second.def << endl;
+		cout << "Name: " << mapEne[input].name << endl
+			<< "Hp: " << mapEne[input].hp << endl
+			<< "Atk: " << mapEne[input].atk << endl
+			<< "Def: " << mapEne[input].def << endl;
+	}
 
 	return 0;
 }
