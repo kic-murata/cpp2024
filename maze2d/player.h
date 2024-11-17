@@ -13,5 +13,5 @@ public:
   void setY(int y);
   int getX();
   int getY();
-  void move(char key, MapData mapdata);
+  void move(char key, MapData& mapdata);
 };

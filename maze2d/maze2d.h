@@ -11,15 +11,17 @@ enum MapObj {
 
 class Vector2 {
 public:
+//struct Vector2 {
   int x;
   int y;
-  Vector2() = default;
-  Vector2(int x, int y) : x(x), y(y) {};
+  Vector2();// = default;
+  Vector2(int x, int y);// : x(x), y(y) {};
 };
 
 class MapData {
+private:
+	vector<vector<int>> mapData{};//二次元配列
 public:
-  vector<vector<int>> mapData{};//二次元配列
   MapData();              //コンストラクタ
   int getMapValue(int x, int y);//指定座標のデータを返す
   int getMapSize(int i);  //列数を取得
