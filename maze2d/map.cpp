@@ -64,16 +64,25 @@ void Map::setTreasure() {
 }
 //void Map::DrawMap(int playerX, int playerY) {
 void Map::DrawMap() {
+  int xx;
     for (int y = 0; y < mapdata.getMapSize(); y++) {
         for (int x = 0; x < mapdata.getMapSize(0); x++) {
+          //cout << mapdata.getMapValue(x, y);
             if (mapdata.getMapValue(x, y) == WALL) {
-                cout << "#";
+                cout << "\033[31m#\033[m";
+                cout << x;
             }
-            if (mapdata.getMapValue(x, y) == ROAD) {
-                cout << ".";
+            else if (mapdata.getMapValue(x, y) == ROAD) {
+                cout << "\033[32m#\033[m";
+                cout << x;
             }
+            else {
+              cout << "@";
+              cout << mapdata.getMapValue(x, y);
+            }
+            xx = x;
         }
-        cout << endl;
+        cout << xx << endl;
     }
   //マップはプレイヤーの位置を中心として、5×5マスぶんだけ画面に表示
   // #####
