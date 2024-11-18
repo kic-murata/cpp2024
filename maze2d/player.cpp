@@ -8,7 +8,7 @@ void Player::setX(int x) { Pos.x = x; }
 void Player::setY(int y) { Pos.y = y; }
 int Player::getX() { return Pos.x; }
 int Player::getY() { return Pos.y; }
-void Player::move(char key, MapData mapdata) {
+void Player::move(char key, MapData& mapdata) {
   int newPosX = Pos.x;
   int newPosY = Pos.y;
   switch (key) {

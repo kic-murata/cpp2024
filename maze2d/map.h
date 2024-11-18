@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "maze2d.h"
-using namespace std;
+//using namespace std;
 
 //class MapData {
 //public:
@@ -15,12 +15,12 @@ using namespace std;
 //};
 
 class Map {
-private:
 public:
   MapData mapdata;
   Map();
   void Load(string filename);
   void setTreasure();
-  void DrawMap(int playerX, int playerY);
+  //void DrawMap(int playerX, int playerY);
+  void DrawMap();
 };
 

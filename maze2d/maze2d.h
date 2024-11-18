@@ -11,22 +11,24 @@ enum MapObj {
 
 class Vector2 {
 public:
+//struct Vector2 {
   int x;
   int y;
-  Vector2() = default;
-  Vector2(int x, int y) : x(x), y(y) {};
+  Vector2();// = default;
+  Vector2(int x, int y);// : x(x), y(y) {};
 };
 
 class MapData {
+private:
+	vector<vector<int>> mapData{};//二次元配列
 public:
-  vector<vector<int>> mapData{};
-  MapData();
-  int getMapValue(int x, int y);
-  int getMapSize(int i);
-  int getMapSize();
-  void addMap(int j, int value);
-  void resizeMap();
-  void setMapValue(int x, int y, int value);
+  MapData();              //コンストラクタ
+  int getMapValue(int x, int y);//指定座標のデータを返す
+  int getMapSize(int i);  //列数を取得
+  int getMapSize();       //行数を取得
+  void addMap(int j, int value);//指定行(j)にvalueを追加
+  void resizeMap();       //配列に新しい行を追加
+  void setMapValue(int x, int y, int value);//指定座標にデータを格納
   //MapData() = default;
   //int getMapValue(int x, int y) { return mapData[y][x]; }
   //int getMapSize(int i) { return mapData[i].size(); }

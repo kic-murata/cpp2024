@@ -63,7 +63,19 @@ void Map::setTreasure() {
   }
   //cout << "end: setTreasure" << endl;
 }
-void Map::DrawMap(int playerX, int playerY) {
+//void Map::DrawMap(int playerX, int playerY) {
+void Map::DrawMap() {
+    for (int y = 0; y < mapdata.getMapSize(); y++) {
+        for (int x = 0; x < mapdata.getMapSize(0); x++) {
+            if (mapdata.getMapValue(x, y) == WALL) {
+                cout << "#";
+            }
+            if (mapdata.getMapValue(x, y) == ROAD) {
+                cout << ".";
+            }
+        }
+        cout << endl;
+    }
   //マップはプレイヤーの位置を中心として、5×5マスぶんだけ画面に表示
   // #####
   // # ###
@@ -72,30 +84,30 @@ void Map::DrawMap(int playerX, int playerY) {
   // # ###
   //そのため、プレイヤーの位置からX座標、Y座標ともに２マスぶん小さい
   //ところから、２マスぶん大きい座標までの間のデータを画面に表示する
-  for (int y = playerY - 2; y <= playerY + 2; y++)
-  {
-    for (int x = playerX - 2; x <= playerX + 2; x++)
-    {
-      if (x == playerX && y == playerY)   //プレイヤーのいる座標に
-      {
-        //cout << PLAYER;                 //プレイヤーの文字を表示
-        cout << "@";                 //プレイヤーの文字を表示
-      }
-      else
-      {
-        //プレイヤー以外の場所を表示
-        if (mapdata.getMapValue(x, y) == WALL) {
-          cout << "\033[31m#\033[m";
-        }
-        if (mapdata.getMapValue(x, y) == ROAD) {
-          cout << "\033[30m.\033[m";
-        }
-        if (mapdata.getMapValue(x, y) == TREASURE) {
-          cout << "\033[33m$\033[m";
-        }
-      }
-    }
-    cout << endl; //一行ぶん表示した後改行
-  }
+  //for (int y = playerY - 2; y <= playerY + 2; y++)
+  //{
+  //  for (int x = playerX - 2; x <= playerX + 2; x++)
+  //  {
+  //    if (x == playerX && y == playerY)   //プレイヤーのいる座標に
+  //    {
+  //      //cout << PLAYER;                 //プレイヤーの文字を表示
+  //      cout << "@";                 //プレイヤーの文字を表示
+  //    }
+  //    else
+  //    {
+  //      //プレイヤー以外の場所を表示
+  //      if (mapdata.getMapValue(x, y) == WALL) {
+  //        cout << "\033[31m#\033[m";
+  //      }
+  //      if (mapdata.getMapValue(x, y) == ROAD) {
+  //        cout << "\033[30m.\033[m";
+  //      }
+  //      if (mapdata.getMapValue(x, y) == TREASURE) {
+  //        cout << "\033[33m$\033[m";
+  //      }
+  //    }
+  //  }
+  //  cout << endl; //一行ぶん表示した後改行
+  //}
 }
 

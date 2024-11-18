@@ -10,24 +10,25 @@ int main()
 {
   Map map;
   //CSVからのデータ読み込み&マップデータの格納
-  map.Load("2d_maze44.csv");
+  map.Load("2d_maze22.csv");
   //宝箱の生成
   map.setTreasure();
 
   //プレイヤーの出現位置の設定(X,Y) = (2,2)
-  Player player(2,2);
+//  Player player(2,2);
 
-  //system("cls");  //コマンドプロンプトの画面消去
+  system("cls");  //コマンドプロンプトの画面消去
   while (true)    //ゲームループ
   {
     // 標準出力画面のカーソル位置を(0,0)へ設定する
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD{ 0, 0 });
 
-    map.DrawMap(player.getX(), player.getY());
+    //map.DrawMap(player.getX(), player.getY());
+    map.DrawMap();
 
-    char input = _getch();
+//    char input = _getch();
 
-    player.move(input, map.mapdata);
+//    player.move(input, map.mapdata);
   }
   return 0;
 }
