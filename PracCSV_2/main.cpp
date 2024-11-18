@@ -3,6 +3,7 @@
 #include <sstream>	//istringstream
 #include <string>		//getline
 #include <vector>		//vector
+#include <iomanip>	//setw
 using namespace std;
 class Weapon {
 private:
@@ -46,5 +47,42 @@ int main() {
 		vec.clear();//一行分の内容を消去
 	}
 	ifs.close();
+	//武器一覧の表示
+	for (int i = 0; i < vWpn.size(); i++) {
+		//通し番号の表示
+		cout << i << ":";
+		//武器名の表示getName()
+		cout << vWpn[i]->getName();
+		//価格の表示getPrice() (※非売品の処理が必要)
+		if (vWpn[i]->getPrice() < 0) {
+			cout << "\t" << right << setw(9)
+				<< "非売品" << endl;
+		}
+		else
+		{
+			cout << "\t" << right << setw(8)
+				<< vWpn[i]->getPrice() << "G" << endl;
+		}
+	}
+	//武器購入モード
+	cout << "どの武器を購入しますか？>";
+	int sel;    //購入する武器の番号を格納する変数
+	cin >> sel; //キーボードから番号を入力
+	if (sel >= 0 && sel < vWpn.size()) {
+		if (vWpn[sel]->getPrice() < 0) {
+			cout << vWpn[sel]->getName() << "は購入できません"
+				<< endl;
+		}
+		else {//購入可能なときの処理
+			cout << vWpn[sel]->getName() << "を購入しました"
+				<< endl << "攻撃力が" << vWpn[sel]->getAtk()
+				<< "アップした" << endl << "重量が"
+				<< vWpn[sel]->getWeight() << "増えた" << endl;
+		}
+	}
+	else
+	{
+		cout << "その武器は存在しません" << endl;
+	}
 	return 0;
 }
