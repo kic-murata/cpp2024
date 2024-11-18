@@ -13,17 +13,16 @@ void Map::Load(string filename) {
       cout << "FileOpen Error" << endl;
       exit(-1);
     }
-    string linetext;
+    string text;
     int j = 0;
     //cout << j << " ";
     // ファイルの終わりまで一行ずつ読み込んでいく
-    while (getline(ifs, linetext)) {
+    while (getline(ifs, text)) {
       //cout << linetext << endl;
-      // 読み込んだ一行をsplit関数で分割して、vector型のstrvecへ格納する
       mapdata.resizeMap();
-      istringstream iss(linetext);
-      while (getline(iss, linetext, ',')) {
-        mapdata.addMap(j, stoi(linetext));
+      istringstream iss(text);
+      while (getline(iss, text, ',')) {
+        mapdata.addMap(j, stoi(text));
       }
       j++;
     }
