@@ -20,5 +20,5 @@ void MapData::resizeMap() {
 void MapData::setMapValue(int x, int y, int value) { 
 	mapData[y][x] = value;
 }
-Vector2::Vector2() = default;
-Vector2::Vector2(int x, int y) : x(x), y(y) {};
+//Vector2::Vector2() = default;
+//Vector2::Vector2(int x, int y) : x(x), y(y) {};

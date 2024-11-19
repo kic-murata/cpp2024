@@ -21,6 +21,6 @@ public:
   void Load(string filename);
   void setTreasure();
   //void DrawMap(int playerX, int playerY);
-  void DrawMap();
+  void DrawMap(int px, int py);
 };
 

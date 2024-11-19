@@ -51,7 +51,7 @@ void Map::setTreasure() {
   // Y座標用の範囲を指定した分布生成器オブジェクトrnd_yを生成
   uniform_int_distribution<int> rnd_y(2, mapdata.getMapSize() - 3);
   //指定範囲（2～19の範囲）で乱数を生成する
-  while (1) {
+  while (true) {
     auto trX = rnd_x(rand_engine);
     auto trY = rnd_y(rand_engine);
     //cout << "trX:" << trX << " trY:" << trY << " Map:" << mapdata.getMapValue(trX, trY) << endl;
@@ -63,27 +63,27 @@ void Map::setTreasure() {
   //cout << "end: setTreasure" << endl;
 }
 //void Map::DrawMap(int playerX, int playerY) {
-void Map::DrawMap() {
-  int xx;
-    for (int y = 0; y < mapdata.getMapSize(); y++) {
-        for (int x = 0; x < mapdata.getMapSize(0); x++) {
-          //cout << mapdata.getMapValue(x, y);
-            if (mapdata.getMapValue(x, y) == WALL) {
-                cout << "\033[31m#\033[m";
-                cout << x;
-            }
-            else if (mapdata.getMapValue(x, y) == ROAD) {
-                cout << "\033[32m#\033[m";
-                cout << x;
-            }
-            else {
-              cout << "@";
-              cout << mapdata.getMapValue(x, y);
-            }
-            xx = x;
+void Map::DrawMap(int px, int py) {
+  for (int y = py - 2; y <= py + 2; y++) {
+    for (int x = px - 2; x <= px + 2; x++) {
+      if (x == px && y == py) {
+        cout << "@";
+      }
+      else
+      {
+        if (mapdata.getMapValue(x, y) == WALL) {
+          cout << "\033[31m#\033[m";
         }
-        cout << xx << endl;
+        else if (mapdata.getMapValue(x, y) == ROAD) {
+          cout << "\033[30m#\033[m";
+        }
+        else if (mapdata.getMapValue(x, y) == TREASURE) {
+          cout << "\033[33m$\033[m";
+        }
+      }
     }
+    cout << endl;
+  }
   //マップはプレイヤーの位置を中心として、5×5マスぶんだけ画面に表示
   // #####
   // # ###
