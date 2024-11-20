@@ -3,6 +3,7 @@
 #include <sstream> //istringstream
 #include <string>  //getline
 #include <vector>  //vector
+#include <iomanip> //setw
 using namespace std;
 
 class Weapon {
@@ -36,10 +37,47 @@ int main() {
 		while (getline(iss, text, ',')) {
 			v.push_back(text);//CSVの各項目をvに追加
 		}
+		//CSVの各要素をWeaponクラスのコンストラクタの引数にする。
+		//生成されたインスタンスのアドレスをvWpnに格納する。
 		vWpn.push_back(new Weapon(v[0], stoi(v[1]),
 			stoi(v[2]), stoi(v[3])));
 		v.clear();//配列vの要素を全削除
 	}
 	ifs.close();
+	//武器一覧の表示
+	for (int i = 0; i < vWpn.size(); i++) {
+		//通し番号：武器名　の表示
+		cout << i << ":"
+			<< left << setw(12) << vWpn[i]->getName();
+		//価格　の表示（価格が負の数なら非売品）
+		if (vWpn[i]->getPrice() < 0) {
+			cout << right << setw(11) << "非売品" << endl;
+		} else
+		{ 
+			cout << right << setw(10) 
+				<< vWpn[i]->getPrice() << "G" << endl;
+		}
+	}
+	cout << "どの武器を購入しますか？＞";
+	int no;
+	cin >> no; //キーボードからの入力をnoに格納
+	//noの有効範囲チェック
+	if (no >= 0 && no < vWpn.size()) {
+		if (vWpn[no]->getPrice() < 0) {
+			cout << "非売品のため購入できません" << endl;
+		}
+		else
+		{
+			cout << vWpn[no]->getName() << "を購入した" << endl
+			<< "攻撃力が" << vWpn[no]->getAtk() << "アップ" << endl
+			<< "重量が" << vWpn[no]->getWeight() << "増えた" << endl;
+		}
+	}
+	else
+	{
+		cout << "その武器は購入できません" << endl;
+		cout << "0～" << vWpn.size() - 1 << "の範囲で入力してください";
+	}
+
 	return 0;
 }
