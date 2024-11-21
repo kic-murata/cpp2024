@@ -1,5 +1,6 @@
 #pragma once
 #include "maze.h"
+#include <iostream>
 
 class Map {
 public:
