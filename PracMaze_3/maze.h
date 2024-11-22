@@ -1,6 +1,13 @@
 #pragma once
 #include <vector>
 using namespace std;
+
+enum MapObj {
+	ROAD,
+	WALL,
+	TREASURE
+};
+
 class MapData {
 private:
 	vector<vector<int>> mapData{};
