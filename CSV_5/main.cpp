@@ -59,5 +59,8 @@ int main() {
 			<< p->getAtk() << "\t"
 			<< p->getDef() << endl;
 	}
+	ofstream ofs("enemy_list.csv", ios::app);
+	ofs << "Rat, 8, 5, 2" << endl;
+	ofs.close();
 	return 0;
 }
