@@ -91,7 +91,7 @@ public:
 		//cout << "乱数生成完了" << endl;
 
 		//戦闘モードを開始
-		BattleMode(&chara, mob[num]);
+		BattleMode(chara, mob[num]);
 		if (chara.sp.state & Dead) {
 			cout << chara.sp.name << "の死亡によりゲームオーバー\n";
 		}
@@ -123,7 +123,7 @@ public:
 	* 第1引数：Spec型構造体変数（攻撃側）
 	* 第2引数：Spec型構造体変数のアドレス（防御側）
 	*/
-	void BattleMessage(Spec sp1, Spec* sp2) {
+	void BattleMessage(Spec sp1, Spec& sp2) {
 		//被ダメを格納する変数
 		int damage;
 		//ターンをひとつ進めておく
@@ -131,17 +131,17 @@ public:
 		//攻撃側を表示
 		cout << sp1.name << "の攻撃\n";
 		//ダメージ計算
-		damage = DamageCalc(sp1, *sp2);
+		damage = DamageCalc(sp1, sp2);
 		//被ダメの表示
-		cout << sp2->name << "に" << damage << "のダメージ\n\n";
+		cout << sp2.name << "に" << damage << "のダメージ\n\n";
 		//防御側からダメージ分のHPを減算
-		sp2->hp -= damage;
+		sp2.hp -= damage;
 		//HPが０以下になったら
-		if (sp2->hp <= 0) {
+		if (sp2.hp <= 0) {
 			//防御側が倒されたというメッセージを表示
-			cout << sp2->name << "は倒された\n";
+			cout << sp2.name << "は倒された\n";
 			//防御側に死亡フラグを立てる
-			sp2->state |= Dead;
+			sp2.state |= Dead;
 		}
 	}
 	/*void BattleMode(Chara* c, Mob m)
@@ -149,32 +149,32 @@ public:
 	* 第1引数：Chara型構造体変数のアドレス（自キャラ）
 	* 第2引数：Mob型構造体変数（敵キャラ）
 	*/
-	void BattleMode(Chara* c, Mob m) {
+	void BattleMode(Chara& c, Mob m) {
 		constexpr double Poison_Damage = 0.8; //毒状態のときの毎ターン減少率
 		constexpr double Burn_Damage = 0.9;   //火傷状態のときの毎ターン減少率
 		//	static const float Burn_Damage = 0.9;
 		int command, skill;
 		//system("cls");      //コマンドプロンプトのcls命令の実行
-		DisplayStatus(*c);
+		DisplayStatus(c);
 		cout << m.sp.name << "があらわれた！\n";
 		while (1) {
 			command = DisplayMenu();
 
 			//状態異常のときのHPやMPの処理
-			if (c->sp.state & Poison) { //毒のフラグがONのとき 
-				c->sp.hp *= Poison_Damage;//自キャラHPをPoison_Damage(0.8)倍にする
+			if (c.sp.state & Poison) { //毒のフラグがONのとき 
+				c.sp.hp *= Poison_Damage;//自キャラHPをPoison_Damage(0.8)倍にする
 			}
-			if (c->sp.state & Burn) {   //火傷のフラグがONのとき
-				c->sp.hp *= Burn_Damage;  //自キャラのHPをBurn_Damage(0.9)倍にして
-				c->mp *= Burn_Damage;     //自キャラのMPもBurn_Damage(0.9)倍にする
+			if (c.sp.state & Burn) {   //火傷のフラグがONのとき
+				c.sp.hp *= Burn_Damage;  //自キャラのHPをBurn_Damage(0.9)倍にして
+				c.mp *= Burn_Damage;     //自キャラのMPもBurn_Damage(0.9)倍にする
 			}
 			//[たたかう]
 			if (command == 1) {
-				DisplayStatus(*c);
+				DisplayStatus(c);
 				//TurnCountが偶数のときは自キャラの攻撃
 				if (TurnCount % 2 == 0) {
 					//戦闘メッセージの表示と防御側HP減算、死亡チェック
-					BattleMessage(c->sp, &m.sp);
+					BattleMessage(c.sp, m.sp);
 					//敵キャラの死亡フラグがONなら
 					if (m.sp.state & Dead) {
 						break;
@@ -183,9 +183,9 @@ public:
 				//TurnCountが奇数のときは敵の攻撃
 				if (TurnCount % 2 == 1) {
 					//戦闘メッセージの表示と防御側HP減算、死亡チェック
-					BattleMessage(m.sp, &c->sp);
+					BattleMessage(m.sp, c.sp);
 					//自キャラの死亡フラグがONなら
-					if (c->sp.state & Dead) {
+					if (c.sp.state & Dead) {
 						break;
 					}
 					else { //自キャラが死んでいなければ以下の処理を実行
@@ -193,51 +193,51 @@ public:
 						if (rand() % 100 < m.rate) {
 							cout << "状態異常攻撃を受けた！\n";
 							//自キャラに状態異常を付加するときには、Atk_Skillフラグを除去しておく
-							c->sp.state |= (m.sp.state & ~Atk_Skill);
+							c.sp.state |= (m.sp.state & ~Atk_Skill);
 						}
-						DisplayStatus(*c);
+						DisplayStatus(c);
 					}
 				}
 			}
 			//DisplayMenuで強制終了用のキーが押されたときの処理
 			else if (command == -1) {
-				c->sp.state |= Dead;  //自キャラの死亡フラグをON
+				c.sp.state |= Dead;  //自キャラの死亡フラグをON
 				return;               //関数を抜け出る
 			}
 			//[スキル]
 			else if (command == 2) {
 				cout << "スキルの選択\n";
-				skill = SkillMenu(*c);  //skillは0~2のいずれか
+				skill = SkillMenu(c);  //skillは0~2のいずれか
 				//MP残量チェック（自MP量がスキル使用MP量より多いとき）
-				if (c->mp >= c->skl[skill].use_mp) {
+				if (c.mp >= c.skl[skill].use_mp) {
 					//自キャラのMPを使用したぶん減らす
-					c->mp -= c->skl[skill].use_mp;
+					c.mp -= c.skl[skill].use_mp;
 					//スキルのtype値によって分岐処理
-					switch (c->skl[skill].type) {
+					switch (c.skl[skill].type) {
 					case 0:  //HP回復スキル使用時の処理
 						//自キャラHPにスキル使用による回復量(effect値）を加算
-						c->sp.hp += c->skl[skill].effect;
+						c.sp.hp += c.skl[skill].effect;
 						//自キャラHPがMAXHPを超えたら、MAXHPに揃える
-						if (c->sp.hp > c->maxhp) { c->sp.hp = c->maxhp; }
-						cout << "HPを" << c->skl[skill].effect << "回復した!\n";
+						if (c.sp.hp > c.maxhp) { c.sp.hp = c.maxhp; }
+						cout << "HPを" << c.skl[skill].effect << "回復した!\n";
 						break;
 					case 1: //攻撃力アップの処理
 						//自キャラATKを1.20倍（＝120÷100）
-						c->sp.atk *= c->skl[skill].effect / 100.0;
+						c.sp.atk *= c.skl[skill].effect / 100.0;
 						//攻撃力アップフラグON
-						c->sp.state |= AtkUp;
+						c.sp.state |= AtkUp;
 						cout << "攻撃力がアップした!\n";
 						break;
 					case 2: //状態異常回復の処理
 						//デバフ系下位8ビットだけを0にするビット列(~DeBuff)をAND演算
-						c->sp.state &= ~DeBuff;
+						c.sp.state &= ~DeBuff;
 						cout << "状態異常が回復した!\n";
 						break;
 					case 3:  //防御力アップの処理
 						//自キャラのDef値を1.5倍（150÷100.0）にする
-						c->sp.def *= c->skl[skill].effect / 100.0;
+						c.sp.def *= c.skl[skill].effect / 100.0;
 						//DefUpフラグを立てる
-						c->sp.state |= DefUp;
+						c.sp.state |= DefUp;
 						//何がアップしたかを画面表示
 						cout << "防御力がアップした！\n";
 						break;
@@ -245,7 +245,7 @@ public:
 						break;
 					}
 					//自キャラのステータスの値を画面表示
-					DisplayStatus(*c);
+					DisplayStatus(c);
 				}
 				else {  //MP残量チェックにひっかかったときの処理
 					cout << "MPが足りない！\n";
@@ -304,21 +304,16 @@ public:
 	* 戦闘モード時の自キャラのステータス表示
 	* 第1引数：Chara型構造体変数（自キャラ）*/
 	void DisplayStatus(Chara c) {
+		FillConsoleOutputCharacter(GetStdHandle(STD_OUTPUT_HANDLE), "#", 100, COORD{ 0,0 });
 		SetConsoleCursorPosition(
-			GetStdHandle(STD_OUTPUT_HANDLE), COORD{ 7,0 }
+			GetStdHandle(STD_OUTPUT_HANDLE), COORD{ 0,7 }
 		);
 		cout << "******************\n";
-		//HPを4桁左詰め、MPを3桁左詰めで表示
-		SetConsoleCursorPosition(
-			GetStdHandle(STD_OUTPUT_HANDLE), COORD{ 7,1 }
-		);
+		//HPを5桁左詰め、MPを3桁左詰めで表示
 		cout << "HP:" << left << setw(5) << c.sp.hp
 			<< "MP:" << right << setw(3) << c.mp << endl;
 		//フラグが立っているビットの確認
 		if (c.sp.state) {
-			SetConsoleCursorPosition(
-				GetStdHandle(STD_OUTPUT_HANDLE), COORD{ 7,2 }
-			);
 			cout << "状態： ";
 			if (c.sp.state & Poison) { cout << "毒 "; }
 			if (c.sp.state & Sleeep) { cout << "睡眠 "; }
@@ -328,9 +323,6 @@ public:
 			if (c.sp.state & AtkDown) { cout << "攻撃力ダウン "; }
 			if (c.sp.state & DefUp) { cout << "防御力アップ "; }
 		}
-		SetConsoleCursorPosition(
-			GetStdHandle(STD_OUTPUT_HANDLE), COORD{ 7,3 }
-		);
 		cout << "******************\n";
 	}
 	int LoadDataFile(string filename[], Chara& c, Mob (&m)[Mob_Num]) {
@@ -340,17 +332,12 @@ public:
 		int i;
 		//データファイルはFile_Num個あるので、for文で繰り返し処理する
 		for (i = 0; i < File_Num; i++) {
-			//cout << "filename[i]=" << filename[i] << endl;
 			fp.open(filename[i]);
 			//filenameはmain関数から渡されたデータファイルのリスト（配列）
 			if (fp) {
 				//データの種類によって処理を分岐
 				switch (i) {
 				case 0:  //自キャラのデータ読み込み
-					//chara.csvの順番：name,hp,atk,def,state,maxhp,mp
-					//%[^,]は「,」の手前までをひとつの文字列として読み取る
-					//%uはunsigned intの変換指定子
-					//メンバがアドレスなら＆をつけない、変数なら＆をつける
 					while (getline(fp, text, ',')) {
 						v.push_back(text);
 					}
@@ -362,13 +349,6 @@ public:
 					c.maxhp = stoi(v[5]);
 					c.mp = stoi(v[6]);
 					v.clear();
-					//cout << c.sp.name
-					//<< " " << c.sp.hp
-					//	<< " " << c.sp.atk
-					//	<< " " << c.sp.def
-					//	<< " " << c.sp.state
-					//	<< " " << c.maxhp
-					//	<< " " << c.mp << endl;
 					break;
 				case 1:  //スキルのデータ読み込み
 					for (int j = 0; j < Skil_Num; j++) {
@@ -376,23 +356,13 @@ public:
 						istringstream iss(text);
 						while (getline(iss, text, ',')) {
 							v.push_back(text);
-							//cout << text << " ";
 						}
-						//cout << "j=" << j << endl;
-						//cout << endl;
-						////skill.csvの順番：name,type,use_mp,effect0
 						c.skl[j].name = v[0];
 						c.skl[j].type = stoi(v[1]);
 						c.skl[j].use_mp = stoi(v[2]);
 						c.skl[j].effect = stoi(v[3]);
 						v.clear();
 					}
-					//for (int i = 0; i < 3; i++) {
-					//	cout << c.skl[i].name
-					//		<< " " << c.skl[i].type
-					//	<< " " << c.skl[i].use_mp
-					//	<< " " << c.skl[i].effect << endl;
-					//}
 					break;
 				case 2:  //敵キャラのデータ読み込み
 					for (int j = 0; j < Mob_Num; j++) {
@@ -400,11 +370,7 @@ public:
 						istringstream iss(text);
 						while (getline(iss, text, ',')) {
 							v.push_back(text);
-						//	cout << text << " ";
 						}
-						//cout << endl;
-						////mob.csvの順番：name,hp,atk,def,state,rate
-						//fscanf(fp, "%[^,],%d,%d,%d,%u,%d\n",
 						m[j].sp.name = v[0];
 						m[j].sp.hp = stoi(v[1]);
 						m[j].sp.atk = stoi(v[2]);
@@ -412,7 +378,6 @@ public:
 						m[j].sp.state = stoi(v[4]);
 						m[j].rate = stoi(v[5]);
 						v.clear();
-						//mはポインタ変数なのでmob配列の各要素は(m+j)（j:0～3）となる
 					}
 					break;
 				}
