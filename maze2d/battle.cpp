@@ -13,8 +13,6 @@ using namespace std;
 constexpr int Skil_Num = 3;  //スキル数
 constexpr int Mob_Num = 3;   //敵の数
 constexpr int File_Num = 3;  //データファイル数
-//符号無し整数をUINTで再定義
-//typedef unsigned int UINT;
 
 typedef struct { //Skill型構造体
 	string name; //スキル名
@@ -63,6 +61,10 @@ enum BitState
 int TurnCount = 0;
 
 class Battle {
+private:
+	////自キャラと敵キャラのパラメータ設定
+	//Chara chara;
+	//Mob mob[Mob_Num];
 public:
 	Battle() = default;
 	int Initialize() {
@@ -86,6 +88,7 @@ public:
 		random_device rnd_dev{};
 		mt19937 rand_engine(rnd_dev());
 		uniform_int_distribution<int> mob_num(0, Mob_Num - 1);
+		uniform_int_distribution<int> rnd100(0, 99);
 		//乱数で0~Mob_Num-1の数値を求める
 		int num = mob_num(rand_engine);
 		//cout << "乱数生成完了" << endl;
@@ -93,8 +96,11 @@ public:
 		//戦闘モードを開始
 		BattleMode(chara, mob[num]);
 		if (chara.sp.state & Dead) {
-			cout << chara.sp.name << "の死亡によりゲームオーバー\n";
+			//自キャラが死んだときの戻り値
+			return 1;
+			//cout << chara.sp.name << "の死亡によりゲームオーバー\n";
 		}
+		return 0;
 	}
 
 	/*int DamageCalc(Spec sp1, Spec sp2)
@@ -104,6 +110,9 @@ public:
 	* （与ダメ）＝攻撃側Atk×(攻撃側Atk÷防御側Def）＋攻撃側Atk×乱数0~0.5
 	*/
 	int DamageCalc(Spec sp1, Spec sp2) {
+		random_device rnd_dev{};
+		mt19937 rand_engine(rnd_dev());
+		uniform_int_distribution<int> rnd100(0, 99);
 		int damage;
 		//攻撃力ダウンフラグがONで、Atk_SkillがOFFのとき（自キャラのみこの条件に該当）
 		if ((sp1.state & AtkDown) && !(sp1.state & Atk_Skill)) {
@@ -111,9 +120,9 @@ public:
 			sp1.atk *= 0.8;
 		}
 		damage = sp1.atk * ((float)sp1.atk / sp2.def)
-			+ sp1.atk * (rand() % 50) / 100.0;
+			+ sp1.atk * (rnd100(rand_engine) / 2) / 100.0;
 		//100分の1の確率で会心/痛恨の一撃
-		if (rand() % 100 == 99) {
+		if (rnd100(rand_engine) == 99) {
 			return 2 * damage;  //ダメージ量2倍
 		}
 		return damage;  //通常ダメージ
@@ -152,9 +161,12 @@ public:
 	void BattleMode(Chara& c, Mob m) {
 		constexpr double Poison_Damage = 0.8; //毒状態のときの毎ターン減少率
 		constexpr double Burn_Damage = 0.9;   //火傷状態のときの毎ターン減少率
+		random_device rnd_dev{};
+		mt19937 rand_engine(rnd_dev());
+		uniform_int_distribution<int> rnd100(0, 99);
 		//	static const float Burn_Damage = 0.9;
 		int command, skill;
-		//system("cls");      //コマンドプロンプトのcls命令の実行
+		system("cls");      //コマンドプロンプトのcls命令の実行
 		DisplayStatus(c);
 		cout << m.sp.name << "があらわれた！\n";
 		while (1) {
@@ -190,7 +202,7 @@ public:
 					}
 					else { //自キャラが死んでいなければ以下の処理を実行
 						//状態異常付加確率の計算
-						if (rand() % 100 < m.rate) {
+						if (rnd100(rand_engine) < m.rate) {
 							cout << "状態異常攻撃を受けた！\n";
 							//自キャラに状態異常を付加するときには、Atk_Skillフラグを除去しておく
 							c.sp.state |= (m.sp.state & ~Atk_Skill);
@@ -304,10 +316,9 @@ public:
 	* 戦闘モード時の自キャラのステータス表示
 	* 第1引数：Chara型構造体変数（自キャラ）*/
 	void DisplayStatus(Chara c) {
-		FillConsoleOutputCharacter(GetStdHandle(STD_OUTPUT_HANDLE), "#", 100, COORD{ 0,0 });
-		SetConsoleCursorPosition(
-			GetStdHandle(STD_OUTPUT_HANDLE), COORD{ 0,7 }
-		);
+		//SetConsoleCursorPosition(
+		//	GetStdHandle(STD_OUTPUT_HANDLE), COORD{ 0,7 }
+		//);
 		cout << "******************\n";
 		//HPを5桁左詰め、MPを3桁左詰めで表示
 		cout << "HP:" << left << setw(5) << c.sp.hp
