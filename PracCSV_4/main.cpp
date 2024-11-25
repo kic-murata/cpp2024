@@ -3,6 +3,7 @@
 #include <sstream>	//istringstream
 #include <string>		//getline
 #include <vector>		//vector
+#include <iomanip>  //setw
 using namespace std;
 //Weaponクラスの定義と実装
 class Weapon {
@@ -44,14 +45,39 @@ int main() {
 	ifs.close();
 	//武器一覧の表示
 	for (int i = 0; i < vWpn.size(); i++) {
-		cout << i << ":" << vWpn[i]->getName();
+		//通し番号と武器名（左揃え）を表示
+		cout << i << ":" << left << setw(12) << vWpn[i]->getName();
 		if (vWpn[i]->getPrice() < 0) {
-			cout << "非売品" << endl;
+			//非売品（右揃え）を表示
+			cout << right << setw(9) << "非売品" << endl;
 		}
 		else
 		{
-			cout << vWpn[i]->getPrice() << "G" << endl;
+			//武器価格（右揃え）を表示
+			cout << right << setw(8) << vWpn[i]->getPrice() << "G" << endl;
 		}
 	}
+	//武器購入メッセージの表示
+	cout << "どの武器を購入しますか？＞";
+	//キーボードから数値を入力
+	int i;
+	cin >> i;
+	//入力した数値が武器の通し番号の範囲内なのかをチェック
+	if (i >= 0 && i < vWpn.size()) {
+		//非売品のときの処理
+		if (vWpn[i]->getPrice() < 0) {
+			cout << "非売品のため購入できません" << endl;
+		}
+		else {//購入可能な武器のときの処理
+			cout << vWpn[i]->getName() << "を購入した" << endl
+				<< "攻撃力が" << vWpn[i]->getAtk() << "アップした" << endl
+				<< "重量が" << vWpn[i]->getWeight() << "増えた" << endl;
+		}
+	}
+	else {//通し番号の範囲外の処理
+		cout << "そんな武器はありません" << endl;
+	}
+
+
 	return 0;
 }

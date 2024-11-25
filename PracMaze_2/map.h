@@ -7,5 +7,6 @@ public:
 	MapData mapdata;
 	Map();
 	void Load(string filename);
-	void DrawMap();
+	void DrawMap(int px, int py);
+	void SetTreasure();
 };
