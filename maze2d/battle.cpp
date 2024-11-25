@@ -182,7 +182,7 @@ public:
 			}
 			//[たたかう]
 			if (command == 1) {
-				DisplayStatus(c);
+				//DisplayStatus(c);
 				//TurnCountが偶数のときは自キャラの攻撃
 				if (TurnCount % 2 == 0) {
 					//戦闘メッセージの表示と防御側HP減算、死亡チェック
@@ -207,7 +207,7 @@ public:
 							//自キャラに状態異常を付加するときには、Atk_Skillフラグを除去しておく
 							c.sp.state |= (m.sp.state & ~Atk_Skill);
 						}
-						DisplayStatus(c);
+						//DisplayStatus(c);
 					}
 				}
 			}
@@ -274,11 +274,11 @@ public:
 		while (1) {
 			//コマンドリストの表示
 			cout << "----------\nコマンドを選択\n";
-			cout << "1.たたかう\n2.スキル\n3.ぼうぎょ\n\n";
+			cout << "1.たたかう\n2.スキル\n\n";
 			//キーボードから一文字入力して文字コードを格納
 			ch = getch();
 			//入力されたものが'1'～'3'の間も文字なら
-			if (ch > '0' && ch < '4') {
+			if (ch > '0' && ch < '3') {
 				//文字コードを整数値に変換して返す
 				return ch - '0';
 			}
@@ -323,9 +323,9 @@ public:
 		//HPを5桁左詰め、MPを3桁左詰めで表示
 		cout << "HP:" << left << setw(5) << c.sp.hp
 			<< "MP:" << right << setw(3) << c.mp << endl;
+		cout << "状態： ";
 		//フラグが立っているビットの確認
 		if (c.sp.state) {
-			cout << "状態： ";
 			if (c.sp.state & Poison) { cout << "毒 "; }
 			if (c.sp.state & Sleeep) { cout << "睡眠 "; }
 			if (c.sp.state & Paralysis) { cout << "麻痺 "; }
@@ -334,7 +334,7 @@ public:
 			if (c.sp.state & AtkDown) { cout << "攻撃力ダウン "; }
 			if (c.sp.state & DefUp) { cout << "防御力アップ "; }
 		}
-		cout << "******************\n";
+		cout << "\n******************\n";
 	}
 	int LoadDataFile(string filename[], Chara& c, Mob (&m)[Mob_Num]) {
 		vector<string> v{};
