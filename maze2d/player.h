@@ -22,5 +22,5 @@ public:
   void setY(int y);
   int getX();
   int getY();
-  void move(char key, MapData& mapdata);
+  int move(char key, MapData& mapdata);
 };

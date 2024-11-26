@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include "map.h"
 #include "player.h"
+#include "battle.h"
 
 using namespace std;
 
@@ -17,6 +18,9 @@ int main()
   //プレイヤーの出現位置の設定(X,Y) = (2,2)
   Player player(2,2);
 
+  //戦闘モード
+  Battle btl;
+
   system("cls");  //コマンドプロンプトの画面消去
   while (true)    //ゲームループ
   {
@@ -28,7 +32,16 @@ int main()
 
     char input = _getch();
 
-    player.move(input, map.mapdata);
+    if (player.move(input, map.mapdata) == 99) {
+      if (btl.Initialize() == 0) {
+        cout << "\033[33mお宝発見！！ゲームクリア\033[m" << endl;
+        return 0;
+      }
+      else {
+        cout << "\033[31mゲームオーバー…\033[m" << endl;
+        return 0;
+      }
+    }
   }
   return 0;
 }
