@@ -27,14 +27,20 @@ void Map::Load(string filename) {					//CSVファイルの読み込み
 void Map::DrawMap(int px, int py) {
 	for (int y = py - 2; y <= py + 2; y++) {
 		for (int x = px - 2; x <= px + 2; x++) {
-			if (mapdata.getMapValue(x, y) == WALL) {
-				cout << "\033[31m#\033[m";
+			//表示する座標の位置がpxとpyと合致する箇所に@を表示
+			if (x == px && y == py) {
+				cout << "@";
 			}
-			else if (mapdata.getMapValue(x, y) == ROAD) {
-				cout << "\033[30m.\033[m";
-			}
-			else if (mapdata.getMapValue(x, y) == TREASURE) {
-				cout << "\033[33m$\033[m";
+			else {
+				if (mapdata.getMapValue(x, y) == WALL) {
+					cout << "\033[31m#\033[m";
+				}
+				else if (mapdata.getMapValue(x, y) == ROAD) {
+					cout << "\033[30m.\033[m";
+				}
+				else if (mapdata.getMapValue(x, y) == TREASURE) {
+					cout << "\033[33m$\033[m";
+				}
 			}
 		}
 		cout << endl;

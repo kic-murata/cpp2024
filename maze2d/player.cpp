@@ -3,6 +3,7 @@
 using namespace std;
 
 Player::Player() : Pos(0, 0) {};
+//Player::Player() = default;
 Player::Player(int x, int y) : Pos(x, y) {};
 void Player::setX(int x) { Pos.x = x; }
 void Player::setY(int y) { Pos.y = y; }
