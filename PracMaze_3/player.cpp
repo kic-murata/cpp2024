@@ -2,7 +2,7 @@
 #include "player.h"
 #include <iostream>
 using namespace std;
-//Player::Player() : Pos(0, 0) {};
+Player::Player() : Pos(0, 0) {};
 Player::Player(int x, int y) : Pos(x, y) {};
 void Player::setX(int x) {
 	Pos.x = x;
@@ -16,7 +16,7 @@ int Player::getX() {
 int Player::getY() {
 	return Pos.y;
 }
-void Player::move(char key, MapData& mapdata) {
+int Player::move(char key, MapData& mapdata) {
 	int newPosX = Pos.x;
 	int newPosY = Pos.y;
 	switch (key) {
@@ -41,9 +41,11 @@ void Player::move(char key, MapData& mapdata) {
 			Pos.x = newPosX;
 			Pos.y = newPosY;
 			if (mapdata.getMapValue(Pos.x, Pos.y) == TREASURE) {
+				return 99;
 				cout << "\033[33mお宝発見！！ゲームクリア\033[m" << endl;
 				exit(0);
 			}
 		}
 	}
+	return 0;
 }

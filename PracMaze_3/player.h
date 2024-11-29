@@ -17,5 +17,5 @@ public:
 	int getX();           //ゲッター
 	int getY();
 	//マップ上で移動可能かどうかを調べて、自キャラ座標を更新する
-	void move(char key, MapData& mapdata);
+	int move(char key, MapData& mapdata);
 };
