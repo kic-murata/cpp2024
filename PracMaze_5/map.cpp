@@ -29,17 +29,24 @@ void Map::DrawMap(int px, int py) {
 	for (int y = py - 2; y <= py + 2; y++) {
 		//px-2列目からpx+2列目までループ
 		for (int x = px - 2; x <= px + 2; x++) {
-			//配列要素の値がWALLの場合
-			if (mapdata.getMapValue(x, y) == WALL) {
-				cout << "\033[31m#\033[m";
+			//座標(x,y)が中心座標(px,py)のとき
+			if (x == px && y == py) {
+				cout << "@"; //自キャラを表示
 			}
-			//配列要素の値がROADの場合
-			else if (mapdata.getMapValue(x, y) == ROAD) {
-				cout << "\033[30m.\033[m";
-			}
-			//配列要素の値がTREASUREの場合
-			else if (mapdata.getMapValue(x, y) == TREASURE) {
-				cout << "\033[33m$\033[m";
+			//以下、中心座標以外のときの表示
+			else {
+				//配列要素の値がWALLの場合
+				if (mapdata.getMapValue(x, y) == WALL) {
+					cout << "\033[31m#\033[m";
+				}
+				//配列要素の値がROADの場合
+				else if (mapdata.getMapValue(x, y) == ROAD) {
+					cout << "\033[30m.\033[m";
+				}
+				//配列要素の値がTREASUREの場合
+				else if (mapdata.getMapValue(x, y) == TREASURE) {
+					cout << "\033[33m$\033[m";
+				}
 			}
 		}
 		//一行分表示が終わったら改行

@@ -28,21 +28,16 @@ int Player::move(char key, MapData& mapdata) {
   case '@': // 強制終了
     exit(0);
   }
-
-  if (newPosX >= 0 && newPosX < mapdata.getMapSize(0) && newPosY >= 0 && newPosY < mapdata.getMapSize()) //移動範囲チェック
-  {
-    if (mapdata.getMapValue(newPosX,newPosY) != WALL) {
-      Pos.x = newPosX;   //移動可能ならプレイヤー位置を更新
-      Pos.y = newPosY;
-
-      if (mapdata.getMapValue(newPosX, newPosY) == TREASURE)   //プレイヤーの位置が宝箱のとき
-      {
-        return 99;
-        cout << "\033[33mお宝発見！！ゲームクリア\033[m" << endl;
-        exit(0);
-      }
+  //移動予測位置が壁でないかどうかのチェック
+  if (mapdata.getMapValue(newPosX, newPosY) != WALL) {
+    Pos.x = newPosX;   //移動可能ならプレイヤー位置を更新
+    Pos.y = newPosY;
+    //プレイヤーの移動先が宝箱と重なるとき
+    if (mapdata.getMapValue(newPosX, newPosY) == TREASURE)   //プレイヤーの位置が宝箱のとき
+    {
+      cout << "\033[33mお宝発見！！ゲームクリア\033[m" << endl;
+      exit(0);
     }
   }
-  return 0;
 }
 
