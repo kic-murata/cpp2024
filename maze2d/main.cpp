@@ -4,6 +4,8 @@
 #include "map.h"
 #include "player.h"
 #include "battle.h"
+#include <random>
+#include <algorithm>
 
 using namespace std;
 
@@ -21,7 +23,21 @@ int main()
   //戦闘モード
   Battle btl;
 
-  system("cls");  //コマンドプロンプトの画面消去
+  //乱数生成 1/1000の確率を作る
+  //random_device rand_dev{};
+  //mt19937 rand_engine(rand_dev());
+  //bernoulli_distribution dist(0.001);
+
+  //int j = 0;
+  //for (int i = 0; i < 10000; ++i) {
+  //  if (dist(rand_engine)) {
+  //    j++;
+  //  }
+  //}
+  //cout << "あたり回数:" << j << endl;
+
+
+  //system("cls");  //コマンドプロンプトの画面消去
   while (true)    //ゲームループ
   {
     // 標準出力画面のカーソル位置を(0,0)へ設定する
