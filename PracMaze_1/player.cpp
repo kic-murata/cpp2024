@@ -16,7 +16,7 @@ int Player::getX() {
 int Player::getY() {
 	return Pos.y;
 }
-void Player::move(char key, MapData& mapdata) {
+int Player::move(char key, MapData& mapdata) {
 	int newPosX = Pos.x; //x座標の移動予測位置
 	int newPosY = Pos.y; //y座標の　　〃
 	switch (key) {
@@ -45,9 +45,11 @@ void Player::move(char key, MapData& mapdata) {
 			Pos.y = newPosY;
 			//移動する方向に宝物があったとき
 			if (mapdata.getMapValue(newPosX, newPosY) == TREASURE) {
+				return 99;
 				cout << "\033[33mお宝発見！\033[m" << endl;
 				exit(0);
 			}
 		}
 	}
+	return 0;
 }

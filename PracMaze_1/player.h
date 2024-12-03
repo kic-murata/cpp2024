@@ -16,7 +16,7 @@ public:
 	int getX();          //ゲッター
 	int getY();
 	//第一引数はwasdのいずれか、第二引数はマップデータのある二次元配列
-	void move(char key, MapData& mapdata);
+	int move(char key, MapData& mapdata);
 
 	
 };

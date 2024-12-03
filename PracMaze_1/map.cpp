@@ -72,8 +72,4 @@ void Map::SetTreasure() {
 			break;//–³ŒÀƒ‹[ƒv‚ğ”²‚¯‚é
 		}
 	}
-
-
-
-
 }
