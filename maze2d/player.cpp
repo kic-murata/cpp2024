@@ -35,9 +35,11 @@ int Player::move(char key, MapData& mapdata) {
     //プレイヤーの移動先が宝箱と重なるとき
     if (mapdata.getMapValue(newPosX, newPosY) == TREASURE)   //プレイヤーの位置が宝箱のとき
     {
+      return 99;
       cout << "\033[33mお宝発見！！ゲームクリア\033[m" << endl;
       exit(0);
     }
   }
+  return 0;
 }
 

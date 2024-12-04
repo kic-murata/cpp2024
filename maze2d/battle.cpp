@@ -29,7 +29,7 @@ int Battle::Initialize() {
 	if (result == -1) {
 		cout << "致命的なエラーが発生しました\n";
 		//main関数をreturn文で強制的に終了する
-		return 0;
+		return -1;
 	}
 	//cout << "ファイル入力完了" << endl;
 	random_device rnd_dev{};
@@ -227,7 +227,7 @@ int Battle::DisplayMenu(void) {
 		cout << "----------\nコマンドを選択\n";
 		cout << "1.たたかう\n2.スキル\n\n";
 		//キーボードから一文字入力して文字コードを格納
-		ch = getch();
+		ch = _getch();
 		//入力されたものが'1'～'2'の間の文字なら
 		if (ch > '0' && ch < '3') {
 			//文字コードを整数値に変換して返す
@@ -254,7 +254,7 @@ int Battle::SkillMenu(Chara c) {
 		}
 		cout << endl;
 		//キーボードから一文字入力して、整数値に変換
-		ch = getch() - '0';
+		ch = _getch() - '0';
 		//整数値が1～Skill_Nummの範囲であれば
 		if (ch > 0 && ch <= Skil_Num) {
 			//整数値-1を返す（配列の添え字番号にあわせる）
@@ -301,9 +301,12 @@ int Battle::LoadDataFile(string filename[], Chara& c, Mob(&m)[Mob_Num]) {
 			//データの種類によって処理を分岐
 			switch (i) {
 			case 0:  //自キャラのデータ読み込み
+				getline(fp, text);//一行目の読み捨て
 				while (getline(fp, text, ',')) {
+					//CSVからの項目を一時的に配列に格納
 					v.push_back(text);
 				}
+				//各構造体メンバにCSVから読み込んだデータを格納
 				c.sp.name = v[0];
 				c.sp.hp = stoi(v[1]);
 				c.sp.atk = stoi(v[2]);
@@ -311,6 +314,7 @@ int Battle::LoadDataFile(string filename[], Chara& c, Mob(&m)[Mob_Num]) {
 				c.sp.state = stoi(v[4]);
 				c.maxhp = stoi(v[5]);
 				c.mp = stoi(v[6]);
+				//一行ぶんの格納が終わったので配列要素を削除
 				v.clear();
 				break;
 			case 1:  //スキルのデータ読み込み
@@ -318,12 +322,15 @@ int Battle::LoadDataFile(string filename[], Chara& c, Mob(&m)[Mob_Num]) {
 					getline(fp, text);
 					istringstream iss(text);
 					while (getline(iss, text, ',')) {
+						//CSVからの項目を一時的に配列に格納
 						v.push_back(text);
 					}
+					//各構造体メンバにCSVから読み込んだデータを格納
 					c.skl[j].name = v[0];
 					c.skl[j].type = stoi(v[1]);
 					c.skl[j].use_mp = stoi(v[2]);
 					c.skl[j].effect = stoi(v[3]);
+					//一行ぶんの格納が終わったので配列要素を削除
 					v.clear();
 				}
 				break;
@@ -332,14 +339,17 @@ int Battle::LoadDataFile(string filename[], Chara& c, Mob(&m)[Mob_Num]) {
 					getline(fp, text);
 					istringstream iss(text);
 					while (getline(iss, text, ',')) {
+						//CSVからの項目を一時的に配列に格納
 						v.push_back(text);
 					}
+					//各構造体メンバにCSVから読み込んだデータを格納
 					m[j].sp.name = v[0];
 					m[j].sp.hp = stoi(v[1]);
 					m[j].sp.atk = stoi(v[2]);
 					m[j].sp.def = stoi(v[3]);
 					m[j].sp.state = stoi(v[4]);
 					m[j].rate = stoi(v[5]);
+					//一行ぶんの格納が終わったので配列要素を削除
 					v.clear();
 				}
 				break;
@@ -349,7 +359,7 @@ int Battle::LoadDataFile(string filename[], Chara& c, Mob(&m)[Mob_Num]) {
 		}
 		else {  //fopenに失敗したときの処理
 			cout << "ファイルを開けません!\n";
-			//main関数に-1を返す
+			//エラーコード:-1を返す
 			return -1;
 		}
 	}
