@@ -22,6 +22,15 @@ int main()
 
   //戦闘モード
   Battle btl;
+  Chara chara;
+  chara.maxhp = 9999;
+  chara.mp = 500;
+  chara.sp.hp = 9999;
+  chara.sp.state = 0;
+  chara.sp.atk = 200;
+  chara.sp.def = 100;
+  chara.sp.name = "主人公";
+  btl.SaveDataFile("chara.csv", chara);
 
   //乱数生成 1/1000の確率を作る
   //random_device rand_dev{};
@@ -37,7 +46,7 @@ int main()
   //cout << "あたり回数:" << j << endl;
 
 
-  //system("cls");  //コマンドプロンプトの画面消去
+  system("cls");  //コマンドプロンプトの画面消去
   while (true)    //ゲームループ
   {
     // 標準出力画面のカーソル位置を(0,0)へ設定する
@@ -48,7 +57,8 @@ int main()
 
     char input = _getch();
 
-    if (player.move(input, map.mapdata) == 99) {
+    int move_result = player.move(input, map.mapdata);
+    if (move_result == 99) {
       if (btl.Initialize() == 0) {
         cout << "\033[33mお宝発見！！ゲームクリア\033[m" << endl;
         return 0;
@@ -57,6 +67,13 @@ int main()
         cout << "\033[31mゲームオーバー…\033[m" << endl;
         return 0;
       }
+    } 
+    else if (move_result == 98) {
+      if (btl.Initialize() == 100) {
+        cout << "\033[31mゲームオーバー…\033[m" << endl;
+        return 0;
+      }
+      system("cls");
     }
   }
   return 0;

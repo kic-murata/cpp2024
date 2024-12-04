@@ -1,5 +1,7 @@
 ﻿#include "maze2d.h"
 #include "player.h"
+#include <random>
+#include <algorithm>
 using namespace std;
 
 Player::Player() : Pos(0, 0) {};
@@ -32,6 +34,12 @@ int Player::move(char key, MapData& mapdata) {
   if (mapdata.getMapValue(newPosX, newPosY) != WALL) {
     Pos.x = newPosX;   //移動可能ならプレイヤー位置を更新
     Pos.y = newPosY;
+    random_device rand_dev{};
+    mt19937 rand_engine(rand_dev());
+    bernoulli_distribution encount(0.1);
+    if (encount(rand_engine)) {
+      return 98;
+    }
     //プレイヤーの移動先が宝箱と重なるとき
     if (mapdata.getMapValue(newPosX, newPosY) == TREASURE)   //プレイヤーの位置が宝箱のとき
     {

@@ -44,8 +44,13 @@ int Battle::Initialize() {
 	BattleMode(chara, mob[num]);
 	if (chara.sp.state & Dead) {
 		//自キャラが死んだときの戻り値
+		chara.sp.hp = chara.maxhp;
+		chara.sp.state = Base;
+		SaveDataFile(DataFile[0], chara);
 		return 100;
 	}
+	chara.sp.state = Base;
+	SaveDataFile(DataFile[0], chara);
 	return 0;
 }
 
@@ -363,5 +368,18 @@ int Battle::LoadDataFile(string filename[], Chara& c, Mob(&m)[Mob_Num]) {
 			return -1;
 		}
 	}
+	return 0;
+}
+
+int Battle::SaveDataFile(string filename, const Chara& c) {
+	ofstream ofs(filename, ios::out);
+	if (!ofs) {
+		cout << "ファイルを開けません!\n";
+		return -1;
+	}
+	ofs << "名前,現HP,攻撃力,防御力,状態,最大HP,最大MP" << endl;
+	ofs << c.sp.name << "," << c.sp.hp << "," << c.sp.atk << ","
+		<< c.sp.def << "," << c.sp.state << "," << c.maxhp << ","
+		<< c.mp << endl;
 	return 0;
 }

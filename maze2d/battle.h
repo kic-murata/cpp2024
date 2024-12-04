@@ -60,4 +60,5 @@ public:
 	int SkillMenu(Chara c);
 	void DisplayStatus(Chara c);
 	int LoadDataFile(string filename[], Chara& c, Mob(&m)[Mob_Num]);
+	int SaveDataFile(string filename, const Chara& c);
 };
