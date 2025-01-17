@@ -2,7 +2,8 @@
 #include <iostream>
 using namespace std;
 
-Car::Car() : m_speed(0), m_migration(0) {
+Car::Car() : m_speed(0), m_migration(20) {
+//Car::Car() : m_speed(0) {
 	cout << "Carクラスのインスタンス生成" << endl;
 }
 

@@ -6,9 +6,13 @@ using namespace std;
 
 int main()
 {
+  Car* m_car = new Car();
+  cout << m_car << ":" << m_car->getMigration() << endl;
   cout << "CarƒNƒ‰ƒX‚Ìˆ—" << endl;
-  //Car* pkuruma = new Car();
+  Car* pkuruma0 = new Car();
+  cout << pkuruma0 << ":" << pkuruma0->getMigration() << endl;
   unique_ptr<Car> pkuruma(new Car());
+  cout << pkuruma << ":" << pkuruma->getMigration() << endl;
   pkuruma->setSpeed(40);
   pkuruma->drive(1.5);
   cout << "‘ˆÚ“®‹——£:" << pkuruma->getMigration() << "km" << endl;
